@@ -1,0 +1,114 @@
+.chanels-aside{
+    background-color: #211026;
+    width: 400px;
+    overflow-y: scroll;
+    margin-left: 30px;
+    border: 0.5px solid #6D4E72;
+    border-top-left-radius: 10px;
+    color: #b687bd;
+}
+
+.chanels-aside h2{
+    color: #fff;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-family: 'Lato', sans-serif;
+    border-bottom: 1px solid #6D4E72;
+    padding: 20px;
+}
+
+.chanels-aside .channels{
+    padding: 20px;
+}
+
+.chanels-aside .channels .link{
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    margin: 10px 0;
+    display: block;
+}
+
+.chanels-aside .members{
+    padding: 20px;
+}
+
+.chanels-aside .members .member{
+    cursor: pointer;
+}
+
+.chanels-aside .members .link{
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.chanels-aside .members .link img{
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.close-button {
+    display: none;
+}
+
+
+  
+
+
+/*MEDIA QUERYS*/
+@media screen and (max-width: 768px) {
+    .chanels-aside{
+     margin: 0;
+     height: 90vh;
+     overflow: scroll;
+    }
+
+    .chanels-aside h2{
+        font-size: 18px;
+    
+}
+}
+@media screen and (max-width: 768px) {
+    .chanels-aside{
+        width: 80vw;
+        border-radius: 10px;
+        margin: 0;
+        height: auto;
+        position: absolute;
+    }
+
+    .chanels-aside h2{
+        font-size: 18px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .chanels-aside .channels{
+        padding: 5px;
+}
+
+    .chanels-aside .members{
+        display: none;
+    }
+
+    .close-button {
+        display: flex;
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+        margin-right: 0;
+      }
+}

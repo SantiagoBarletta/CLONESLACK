@@ -1,0 +1,250 @@
+{
+    "workspaces": [
+      {
+        "id": "W001",
+        "name": "Team Asesinos seriales",
+        "creation_date": "2023-01-15T12:00:00Z",
+        "image": "/Imagenes/ghostface.jpg",
+        "users": [
+          {
+            "id": "U001",
+            "username": "ghostface789",
+            "firstname": "Ghostface",
+            "lastname": "Smith",
+            "email": "ghostface@slashers.com",
+            "profile_image": "/Imagenes/ghostface.jpg"
+          },
+          {
+            "id": "U002",
+            "username": "jigsaw456",
+            "firstname": "John",
+            "lastname": "Kramer",
+            "email": "jigsaw@slashers.com",
+            "profile_image": "/Imagenes/jigsaw.jpg"
+          },
+          {
+            "id": "U003",
+            "username": "leatherface123",
+            "firstname": "Jedediah",
+            "lastname": "Sawyer",
+            "email": "leaderface@slashers.com",
+            "profile_image": "/Imagenes/leatherface.jpg"
+          },
+          {
+            "id": "U004",
+            "username": "chucky789",
+            "firstname": "Charles Lee",
+            "lastname": "Ray",
+            "email": "chucky@slashers.com.ar",
+            "profile_image": "/Imagenes/chucky.jpg"
+          },
+          {
+            "id": "U005",
+            "username": "michael456",
+            "firstname": "Michael",
+            "lastname": "Myers",
+            "email": "michael@slashers.com",
+            "profile_image": "/Imagenes/michael.png"
+          }
+        ],
+        "channels": [
+          {
+            "id": "C001",
+            "name": "general",
+            "messages": [
+              {
+                "id": "M001",
+                "author": "Ghostface",
+                "author_image": "/Imagenes/ghostface.jpg",
+                "date": "2024-07-17T10:00:00Z",
+                "text": "Hola equipo, ¿cómo están?"
+              },
+              {
+                "id": "M002",
+                "author": "Michael Myers",
+                "author_image": "/Imagenes/michael.png",
+                "date": "2024-07-17T10:05:00Z",
+                "text": "Todo bien, ¿vos?"
+              },
+              {
+                "id": "M003",
+                "author": "Ghostface",
+                "author_image": "/Imagenes/ghostface.jpg",
+                "date": "2024-07-17T10:08:00Z",
+                "text": "Todo tranquilo, cual es su pelicula de terror favorita?"
+              },
+              {
+                "id": "M004",
+                "author": "Charles Lee Ray",
+                "author_image": "/Imagenes/chucky.jpg",
+                "date": "2024-07-17T10:15:00Z",
+                "text": "No empieces!"
+              },
+              {
+                "id": "M005",
+                "author": "John Kramer",
+                "author_image": "/Imagenes/jigsaw.jpg",
+                "date": "2024-07-17T10:20:00Z",
+                "text": "y si jugamos un juego?"
+              },
+              {
+                "id": "M006",
+                "author": "Jedediah Sawyer",
+                "author_image": "/Imagenes/leatherface.jpg",
+                "date": "2024-07-17T10:20:00Z",
+                "text": "🫣"
+              }
+              
+            ]
+          },
+          {
+            "id": "C002",
+            "name": "juntadas",
+            "messages": [
+              {
+                "id": "M007",
+                "author": "Ghostface",
+                "author_image": "/Imagenes/ghostface.jpg",
+                "date": "2024-07-17T09:00:00Z",
+                "text": "Tenemos una reunión a las 3 AM."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "W002",
+        "name": "Team Demonios",
+        "creation_date": "2022-11-20T09:30:00Z",
+        "image": "/Imagenes/regan.jpg",
+        "users": [
+          {
+            "id": "U006",
+            "username": "regan789",
+            "firstname": "Regan",
+            "lastname": "MacNeil",
+            "email": "regan@slashers.com",
+            "profile_image": "/Imagenes/regan.jpg"
+          },
+          {
+            "id": "U007",
+            "username": "penny456",
+            "firstname": "Pennywise",
+            "lastname": "Clown",
+            "email": "it@slashers.com",
+            "profile_image": "/Imagenes/pennywise.jpg"
+          },
+          {
+            "id": "U008",
+            "username": "fred123",
+            "firstname": "Freddy",
+            "lastname": "Krueger",
+            "email": "pesadilla@slashers.com",
+            "profile_image": "/Imagenes/freddy.jpg"
+          }
+        ],
+        "channels": [
+          {
+            "id": "C003",
+            "name": "general",
+            "messages": [
+              {
+                "id": "M008",
+                "author": "Regan MacNeil",
+                "author_image": "/Imagenes/regan.jpg",
+                "date": "2024-07-17T08:00:00Z",
+                "text": "Mi pa zuzuzu zuzuzu."
+              },
+              {
+                "id": "M009",
+                "author": "Pennywise",
+                "author_image": "/Imagenes/pennywise.jpg",
+                "date": "2024-07-17T08:15:00Z",
+                "text": "Todos flotan!"
+              }
+            ]
+          },
+          {
+            "id": "C004",
+            "name": "posesiones",
+            "messages": [
+              {
+                "id": "M0010",
+                "author": "Freddy Krueger",
+                "author_image": "/Imagenes/freddy.jpg",
+                "date": "2024-07-17T11:00:00Z",
+                "text": "A mimir!"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "W003",
+        "name": "Team Sobrenaturales",
+        "creation_date": "2021-06-10T15:45:00Z",
+        "image": "/Imagenes/samara.jpg",
+        "users": [
+          {
+            "id": "U009",
+            "username": "samara123",
+            "firstname": "Samara",
+            "lastname": "Morgan",
+            "email": "samara@slashers.com",
+            "profile_image": "/Imagenes/samara.jpg"
+          },
+          {
+            "id": "U010",
+            "username": "gasper",
+            "firstname": "Gasparin",
+            "lastname": "El fantasma",
+            "email": "gasper@slashers.com",
+            "profile_image": "/Imagenes/gasper.jpg"
+          }
+        ],
+        "channels": [
+          {
+            "id": "C005",
+            "name": "general",
+            "messages": [
+              {
+                "id": "M0011",
+                "author": "Samara Morgan",
+                "author_image": "/Imagenes/samara.jpg",
+                "date": "2024-07-17T09:30:00Z",
+                "text": "Siete días."
+              },
+              {
+                "id": "M0012",
+                "author": "Gasparin",
+                "author_image": "/Imagenes/gasper.jpg",
+                "date": "2024-07-17T09:35:00Z",
+                "text": "Creo que me equivoqué de grupo."
+              }
+            ]
+          },
+          {
+            "id": "C006",
+            "name": "feedback",
+            "messages": [
+              {
+                "id": "M0013",
+                "author": "Samara Morgan",
+                "author_image": "/Imagenes/samara.jpg",
+                "date": "2024-07-17T10:45:00Z",
+                "text": "Siete días."
+              },
+              {
+                "id": "M0014",
+                "author": "Gasparin",
+                "author_image": "/Imagenes/gasper.jpg",
+                "date": "2024-07-17T09:35:00Z",
+                "text": "Ya cambia el cassette!."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -1,0 +1,89 @@
+.infoContainer-none {
+    display: none;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    width: 300px;
+    border-left: 1px solid #6D4E72;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.infoContainer .close {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    cursor: pointer;
+    color: #fff;
+}
+
+.infoContainer .bioInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.infoContainer .bioInfo .userImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 15px;
+}
+
+.infoContainer .bioInfo .contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: #fff
+}
+
+.infoContainer .bioInfo .contact-info .contact-name {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.infoContainer .userInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+    color: #fff;
+    border-top: #6D4E72 1px solid;
+    padding-top: 15px;
+}
+
+.infoContainer .userInfo h3 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.infoContainer .userInfo .contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff
+}
+
+.infoContainer .userInfo .contact .icon {
+    font-size: 20px;
+    background-color: #6D4E72;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .infoContainer {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    
+}

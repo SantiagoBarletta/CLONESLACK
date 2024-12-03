@@ -1,0 +1,47 @@
+.help {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.help .close {
+    background: transparent;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    text-align: end;
+  }
+  
+.help .close:hover {
+    color: #ff0000;
+  }
+
+.help h1 h2 {
+    color: #333;
+}
+.help ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+.help pre {
+    background-color: #eee;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+.help code {
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 90%;
+}
+.help a {
+    color: #007bff;
+    text-decoration: none;
+}
+.help a:hover {
+    text-decoration: underline;
+}

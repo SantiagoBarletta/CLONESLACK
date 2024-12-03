@@ -1,0 +1,103 @@
+.workspace-item{
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.workspace-item img {
+    height: 50px;
+    width: 50px;
+    border-radius: 10%;
+    line-height: 44px;
+    white-space: nowrap;
+}
+.workspace-item .datos {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px ;
+    padding: 5px;
+}
+
+.workspace-item .datos .name {
+    text-overflow: ellipsis;
+    height: 27px;
+    font-size: 20px;
+    font-weight: 700;
+    overflow: hidden;
+    margin: 0;
+}
+.workspace-item .members {
+    font-size: 14px;
+    color: #808080;
+    margin-top: 0;
+    align-items: center;
+    display: flex;
+}
+
+.workspace-item .flecha {
+    font-size: 18px;
+    margin-left: auto;
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.workspace-item .estado {
+    width: 15px;
+    height: 15px;
+    margin-right: 0.2rem;
+}
+
+.workspaces-link {
+    color: inherit;
+    padding: 5px 24px 5px;
+    margin: 10px 0;
+    display: block;
+    text-decoration: none;
+    border-bottom: 1px solid #e5ddd5;
+}
+
+.workspaces-link:last-child {
+    border-bottom: none;
+}
+
+.workspace-item .members img  {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    border-radius: 3px;
+    
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    .workspace-item .datos {
+        flex: 1;
+    }
+    .workspace-item .flecha {
+      display: none;
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+    .workspace-item .members {
+      display: none;
+    }
+
+    .workspace-item .flecha {
+      display: none;
+    }
+
+    .workspace-item .datos .name {
+        
+        font-size: 16px;
+        font-weight: 700;
+        overflow: hidden;
+        margin: 0;
+    }
+  }
