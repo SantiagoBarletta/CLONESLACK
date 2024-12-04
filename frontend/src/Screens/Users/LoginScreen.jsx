@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import useForm from "@hooks/useForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./Users.css";
 
@@ -9,8 +9,8 @@ const LoginScreen = () => {
     email: "",
     password: "",
   });
-  const { login } = useContext(AuthContext); // Usa el contexto
-  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); 
+  
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -29,7 +29,7 @@ const LoginScreen = () => {
       const data = await response.json();
 
       if (!data.ok) {
-        // Manejar errores específicos
+        
         if (data.code === "USER_NOT_FOUND") {
           alert("Usuario no encontrado");
         } else if (data.code === "INCORRECT_PASSWORD") {
@@ -40,7 +40,7 @@ const LoginScreen = () => {
           alert("Error inesperado. Inténtalo más tarde.");
         }
       } else {
-        // Login exitoso
+        
         login(data.data.accessToken);
         sessionStorage.setItem("userName", data.data.user_info.name);
       }

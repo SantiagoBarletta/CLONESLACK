@@ -19,12 +19,13 @@ const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginScreen />} />
+      
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
       <Route path="/recovery-password/:reset_token" element={<RecoveryPasswordScreen />} />
       {/* Rutas protegidas */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/home" element={<WorkspacesScreen />} />
+        <Route path="/" element={<WorkspacesScreen />} />
         <Route path="/workspaces/:workspaceID/:channelID" element={<ChanelsScreen />} />
         <Route path="/workspaces/new" element={<NewWorkspaceScreen />} />
         <Route path="/workspaces/:workspaceID/user/:userID" element={<UserInfo />} />
