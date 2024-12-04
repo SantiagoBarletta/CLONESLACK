@@ -10,27 +10,29 @@ function WorkspacesList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedWorkspaces = localStorage.getItem('workspaces');
-    if (storedWorkspaces) {
-      setWorkspaces(JSON.parse(storedWorkspaces));
-      console.log("workspaces desde localStorage", JSON.parse(storedWorkspaces));
-      setIsLoading(false);
-    } else {
-      obtenerWorkspaces()
-        .then((data) => {
-          console.log("workspaces desde fetch", data);
-          if (data && Array.isArray(data.workspaces)) {
-            setWorkspaces(data.workspaces);
-            localStorage.setItem('workspaces', JSON.stringify(data.workspaces));
-            setIsLoading(false);
-          } 
-        })
-        .catch((error) => {
-          setError(error.message);
-          setIsLoading(false);
-        });
-    }
+    const fetchWorkspaces = async () => {
+      try {
+        setIsLoading(true); // Muestra el estado de carga
+        const data = await obtenerWorkspaces();
+        console.log("Workspaces desde backend", data);
+  
+        if (data && Array.isArray(data.workspaces)) {
+          setWorkspaces(data.workspaces); // Actualiza el estado
+          localStorage.setItem('workspaces', JSON.stringify(data.workspaces)); // Guarda en localStorage
+        } else {
+          setWorkspaces([]); // Si no hay datos, muestra la lista vacía
+        }
+      } catch (error) {
+        console.error("Error al obtener workspaces:", error);
+        setError("Error al cargar los espacios de trabajo.");
+      } finally {
+        setIsLoading(false); // Detiene el estado de carga
+      }
+    };
+  
+    fetchWorkspaces();
   }, []);
+  
 
   return (
     <>
