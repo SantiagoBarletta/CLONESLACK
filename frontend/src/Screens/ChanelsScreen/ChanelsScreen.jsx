@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChanelsHeader, Chanels, ChanelsAside } from "../../Componets";
+import { ChanelsHeader, Chanels, ChanelsAside } from "../../Components";
 import "./ChanelsScreen.css";
 
 function ChanelsScreens() {

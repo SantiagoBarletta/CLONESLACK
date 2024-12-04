@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { NewWorkspace, NewWorkspaceHeader } from '../../Componets';
+import { NewWorkspace, NewWorkspaceHeader } from '../../Components';
 
 
 function NewWorkspaceScreen() {

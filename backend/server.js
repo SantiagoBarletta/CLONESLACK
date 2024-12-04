@@ -1,24 +1,23 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-
-dotenv.config(); // Carga las variables de entorno
+import express from "express";
+import cors from "cors";
+import authRouter from "./routes/auth.route.js";
 
 const app = express();
 
-// Middleware
-app.use(cors()); // Habilita CORS
-app.use(express.json()); // Permite manejar JSON en las requests
+// Middleware para habilitar CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Reemplaza con la URL de tu frontend
+    methods: ["GET", "POST", "PUT", "DELETE"], // Métodos permitidos
+    allowedHeaders: ["Content-Type", "Authorization"], // Encabezados permitidos
+  })
+);
 
-// Variables de entorno
+app.use(express.json());
+
+app.use("/api/auth", authRouter);
+
 const PORT = process.env.PORT || 5000;
-
-// Rutas básicas
-app.get('/', (req, res) => {
-  res.send('Bienvenido al backend de CloneSlack');
-});
-
-// Iniciar el servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

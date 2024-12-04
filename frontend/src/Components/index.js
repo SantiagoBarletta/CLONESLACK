@@ -12,6 +12,7 @@ import NuevoMensajeForm from "./Chanels/MensajeForm/NuevoMensajeForm";
 import FormBusquedaMensajes from "./Chanels/FormBusquedaMensajes/FormBusquedaMensajes";
 import NewChannel from "./Chanels/NewChannel/NewChannel";
 import Help from "./Chanels/Help/Help";
+import UserInfo from "./Users/UserInfo";
 
 export {  
     Workspace, 
@@ -26,5 +27,6 @@ export {
     NuevoMensajeForm,
     FormBusquedaMensajes,
     NewChannel,
-    Help
+    Help,
+    UserInfo
 };
