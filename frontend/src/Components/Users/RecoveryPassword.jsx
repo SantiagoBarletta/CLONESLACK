@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import Form from "../../Components/Form";
+import Form from "../Form";
 import "./Users.css";
 
-const RecoveryPasswordScreen = () => {
+const RecoveryPassword = () => {
   const { reset_token } = useParams();
   const [message, setMessage] = useState(null);
 
@@ -65,4 +65,4 @@ const RecoveryPasswordScreen = () => {
   );
 };
 
-export default RecoveryPasswordScreen;
+export default RecoveryPassword;

@@ -3,7 +3,7 @@ import useForm from "@hooks/useForm";
 import { useNavigate } from "react-router-dom";
 import "./Users.css";
 
-const RegisterScreen = () => {
+const Register = () => {
   const navigate = useNavigate();
 
   const { formState, handleChange } = useForm({
@@ -104,4 +104,4 @@ const RegisterScreen = () => {
   );
 };
 
-export default RegisterScreen;
+export default Register;

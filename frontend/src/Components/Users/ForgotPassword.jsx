@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Form from "../../Components/Form";
+import Form from "../Form";
 import "./Users.css";
 
-const ForgotPasswordScreen = () => {
+const ForgotPassword = () => {
   const form_fields = [
     {
       label_text: "Correo electrónico",
@@ -59,4 +59,4 @@ const ForgotPasswordScreen = () => {
   );
 };
 
-export default ForgotPasswordScreen;
+export default ForgotPassword;

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./Users.css";
 
-const LoginScreen = () => {
+const Login = () => {
   const { formState, handleChange } = useForm({
     email: "",
     password: "",
@@ -86,4 +86,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default Login;
