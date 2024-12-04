@@ -25,16 +25,16 @@ const ForgotPassword = () => {
   };
 
   const submitForgotPassword = async (form_state) => {
-    const email = form_state.email;
+    const email = form_state.email; // Este es el email enviado al backend
     try {
       const response = await fetch(import.meta.env.VITE_URL_API + "/api/auth/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email }), // Confirma que se envía correctamente
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         alert(data.message);
@@ -46,6 +46,7 @@ const ForgotPassword = () => {
       alert("Hubo un error al enviar la solicitud. Intenta más tarde.");
     }
   };
+  
 
   return (
     <div className="auth-screen-container">

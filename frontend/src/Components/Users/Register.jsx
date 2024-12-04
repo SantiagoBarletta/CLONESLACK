@@ -7,13 +7,17 @@ const Register = () => {
   const navigate = useNavigate();
 
   const { formState, handleChange } = useForm({
-    name: "",
+    firstname: "",
+    lastname: "",
+    username: "",
     email: "",
     password: "",
   });
 
   const [errorState, setErrorState] = useState({
-    name: "",
+    firstname: "",
+    lastname: "",
+    username: "",
     email: "",
     password: "",
     general: "",
@@ -37,8 +41,10 @@ const Register = () => {
         // Manejar errores específicos
         console.error("Error en la API:", data);
         setErrorState({
-          name: "",
-          email: data.code === "DUPLICATE_ERROR" ? data.message : "",
+          firstname: "",
+          lastname: "",
+          username: data.code === "DUPLICATE_ERROR" && data.message.includes("username") ? data.message : "",
+          email: data.code === "DUPLICATE_ERROR" && data.message.includes("email") ? data.message : "",
           password: "",
           general: data.message || "Error desconocido",
         });
@@ -47,7 +53,9 @@ const Register = () => {
 
       // Registro exitoso
       setErrorState({
-        name: "",
+        firstname: "",
+        lastname: "",
+        username: "",
         email: "",
         password: "",
         general: "",
@@ -56,15 +64,15 @@ const Register = () => {
     } catch (error) {
       console.error("Error al procesar el registro:", error);
       setErrorState({
-        name: "",
+        firstname: "",
+        lastname: "",
+        username: "",
         email: "",
         password: "",
         general: "Error al procesar el registro. Intenta más tarde.",
       });
     }
   };
-
-  
 
   return (
     <div className="register-container">
@@ -73,12 +81,33 @@ const Register = () => {
         <label>Nombre</label>
         <input
           type="text"
-          name="name"
-          value={formState.name}
+          name="firstname"
+          value={formState.firstname}
           onChange={handleChange}
           required
         />
-        {errorState.name && <p className="error-message">{errorState.name}</p>}
+        {errorState.firstname && <p className="error-message">{errorState.firstname}</p>}
+        
+        <label>Apellido</label>
+        <input
+          type="text"
+          name="lastname"
+          value={formState.lastname}
+          onChange={handleChange}
+          required
+        />
+        {errorState.lastname && <p className="error-message">{errorState.lastname}</p>}
+        
+        <label>Nombre de Usuario</label>
+        <input
+          type="text"
+          name="username"
+          value={formState.username}
+          onChange={handleChange}
+          required
+        />
+        {errorState.username && <p className="error-message">{errorState.username}</p>}
+        
         <label>Correo Electrónico</label>
         <input
           type="email"
@@ -88,6 +117,7 @@ const Register = () => {
           required
         />
         {errorState.email && <p className="error-message">{errorState.email}</p>}
+        
         <label>Contraseña</label>
         <input
           type="password"
@@ -97,8 +127,9 @@ const Register = () => {
           required
         />
         {errorState.password && <p className="error-message">{errorState.password}</p>}
-        <button type="submit">Registrar</button>
         
+        <button type="submit">Registrar</button>
+        {errorState.general && <p className="error-message">{errorState.general}</p>}
       </form>
     </div>
   );

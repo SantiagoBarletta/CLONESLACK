@@ -6,11 +6,10 @@ import "./Users.css";
 
 const Login = () => {
   const { formState, handleChange } = useForm({
-    email: "",
+    login: "", // Campo para username o email
     password: "",
   });
   const { login } = useContext(AuthContext); 
-  
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -29,7 +28,6 @@ const Login = () => {
       const data = await response.json();
 
       if (!data.ok) {
-        
         if (data.code === "USER_NOT_FOUND") {
           alert("Usuario no encontrado");
         } else if (data.code === "INCORRECT_PASSWORD") {
@@ -40,9 +38,8 @@ const Login = () => {
           alert("Error inesperado. Inténtalo más tarde.");
         }
       } else {
-        
         login(data.data.accessToken);
-        sessionStorage.setItem("userName", data.data.user_info.name);
+        sessionStorage.setItem("userName", data.data.user_info.username);
       }
     } catch (error) {
       console.error("Error en el proceso de login:", error);
@@ -56,15 +53,15 @@ const Login = () => {
         <h1>Inicia sesión en Slasher</h1>
       </div>
       <form className="login-form" onSubmit={handleLogin}>
-        <label htmlFor="email">Correo electrónico</label>
+        <label htmlFor="login">Correo electrónico o nombre de usuario</label>
         <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Introduce tu correo"
+          type="text"
+          id="login"
+          name="login"
+          placeholder="Introduce tu correo o nombre de usuario"
           required
           onChange={handleChange}
-          value={formState.email}
+          value={formState.login}
         />
         <label htmlFor="password">Contraseña</label>
         <input

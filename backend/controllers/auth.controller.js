@@ -9,9 +9,10 @@ import pool from "../config/dbconfig.js";
 // Controlador para registrar usuario
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { firstname, lastname, username, email, password } = req.body;
 
-    if (!name || !email || !password) {
+    // Validaciones básicas
+    if (!firstname || !lastname || !username || !email || !password) {
       return res.status(400).json({
         ok: false,
         code: "VALIDATION_ERROR",
@@ -19,28 +20,33 @@ export const registerController = async (req, res) => {
       });
     }
 
-    const [existingUser] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
+    // Verificar si el username o email ya están registrados
+    const [existingUser] = await pool.query(
+      "SELECT * FROM users WHERE username = ? OR email = ?",
+      [username, email]
+    );
     if (existingUser.length > 0) {
       return res.status(400).json({
         ok: false,
         code: "DUPLICATE_ERROR",
-        message: "El email ya está registrado",
+        message: "El username o email ya está registrado",
       });
     }
 
+    // Hashear la contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Generar un token de verificación
     const verificationToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY, { expiresIn: "1d" });
-    console.log("Token generado:", verificationToken);
 
-
+    // Insertar nuevo usuario
     await pool.query(
-      "INSERT INTO users (name, email, password, emailVerified, verificationToken) VALUES (?, ?, ?, ?, ?)",
-      [name, email, hashedPassword, 0, verificationToken]
+      `INSERT INTO users (firstname, lastname, username, email, password, emailVerified, verificationToken) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [firstname, lastname, username, email, hashedPassword, 0, verificationToken]
     );
 
-    // Enviar correo
+    // Enviar correo de verificación
     const verificationLink = `${ENVIROMENT.BACKEND_URL}/api/auth/verify-email/${verificationToken}`;
     await transporterEmail.sendMail({
       from: ENVIROMENT.EMAIL_USER,
@@ -65,6 +71,7 @@ export const registerController = async (req, res) => {
     });
   }
 };
+
 
 // Controlador para verificar email
 export const verifyEmailController = async (req, res) => {
@@ -114,10 +121,10 @@ export const verifyEmailController = async (req, res) => {
 
 // Controlador para iniciar sesión
 export const loginController = async (req, res) => {
-  const { email, password } = req.body;
+  const { login, password } = req.body;
 
   try {
-    const user = await UsersModel.findByEmail(email);
+    const user = await UsersModel.findByEmailOrUsername(login);
 
     if (user.length === 0) {
       return res.status(404).json({
@@ -147,7 +154,9 @@ export const loginController = async (req, res) => {
     const accessToken = jwt.sign(
       {
         user_id: user[0].id,
-        name: user[0].name,
+        firstname: user[0].firstname,
+        lastname: user[0].lastname,
+        username: user[0].username,
         email: user[0].email,
       },
       ENVIROMENT.SECRET_KEY,
@@ -162,7 +171,9 @@ export const loginController = async (req, res) => {
       .setData({
         accessToken,
         user_info: {
-          name: user[0].name,
+          firstname: user[0].firstname,
+          lastname: user[0].lastname,
+          username: user[0].username,
           email: user[0].email,
           user_id: user[0].id,
         },
@@ -180,28 +191,25 @@ export const loginController = async (req, res) => {
   }
 };
 
+
 // Controlador para enviar correo de recuperación de contraseña
 export const forgotPasswordController = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const user = await UsersModel.findByEmail(email);
+    const user = await UsersModel.findByEmailOrUsername(email); // Cambiado aquí
     if (user.length === 0) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const resetToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY,{ expiresIn: "1h" } );
-    
-    const resetUrl = `${ENVIROMENT.FRONTEND_URL}/recovery-password/${resetToken}`;
+    const resetToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY, { expiresIn: "1h" });
 
-    console.log("SECRET_KEY usada para firmar:", ENVIROMENT.SECRET_KEY);
-    console.log("Token generado:", resetToken);
-    
+    const resetUrl = `${ENVIROMENT.FRONTEND_URL}/recovery-password/${resetToken}`;
 
     await transporterEmail.sendMail({
       subject: "Recuperar contraseña",
       to: email,
-      html: `<p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p><a href="${resetUrl}">${resetUrl}</a>`,
+      html: `<p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p><a href="${resetUrl}">Restablecer contraseña</a>`,
     });
 
     return res.status(200).json({
@@ -214,6 +222,7 @@ export const forgotPasswordController = async (req, res) => {
     });
   }
 };
+
 
 // Controlador para restablecer contraseña
 export const recoveryPasswordController = async (req, res) => {

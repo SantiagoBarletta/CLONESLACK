@@ -16,13 +16,13 @@ const RecoveryPassword = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          password: form_state.password,
+          password: form_state.password, // Confirmar que la contraseña llega aquí
         }),
       }
     );
-
+  
     const data = await response.json();
-
+  
     if (response.ok) {
       setMessage(data.message);
       alert(data.message);
@@ -32,6 +32,7 @@ const RecoveryPassword = () => {
       alert(data.message || "Error desconocido.");
     }
   };
+  
 
   const form_fields = [
     {
