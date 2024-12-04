@@ -6,10 +6,10 @@ const WorkspacesModel = {
     return rows;
   },
 
-  create: async (name, description) => {
+  create: async (name, description, image, administrador_id) => {
     const [result] = await pool.query(
-      "INSERT INTO workspaces (name, description, activo) VALUES (?, ?, 1)",
-      [name, description]
+      "INSERT INTO workspaces (name, descripcion, image, administrador_id, activo) VALUES (?, ?, ?, ?, 1)",
+      [name, description, image, administrador_id]
     );
     return result.insertId;
   },

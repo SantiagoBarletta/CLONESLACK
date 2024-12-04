@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Workspace } from "../..";
 import "./WorkspacesList.css";
-import obtenerWorkspaces from "../../../Fetching/workspaces.fetching";
 import { Link } from "react-router-dom";
 
 function WorkspacesList() {
@@ -12,27 +11,28 @@ function WorkspacesList() {
   useEffect(() => {
     const fetchWorkspaces = async () => {
       try {
-        setIsLoading(true); // Muestra el estado de carga
-        const data = await obtenerWorkspaces();
-        console.log("Workspaces desde backend", data);
-  
-        if (data && Array.isArray(data.workspaces)) {
-          setWorkspaces(data.workspaces); // Actualiza el estado
-          localStorage.setItem('workspaces', JSON.stringify(data.workspaces)); // Guarda en localStorage
-        } else {
-          setWorkspaces([]); // Si no hay datos, muestra la lista vacía
+        setIsLoading(true);
+        const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Error al obtener los espacios de trabajo");
         }
+
+        const data = await response.json();
+        setWorkspaces(data.workspaces);
       } catch (error) {
-        console.error("Error al obtener workspaces:", error);
-        setError("Error al cargar los espacios de trabajo.");
+        setError(error.message);
       } finally {
-        setIsLoading(false); // Detiene el estado de carga
+        setIsLoading(false);
       }
     };
-  
+
     fetchWorkspaces();
   }, []);
-  
 
   return (
     <>
@@ -40,14 +40,14 @@ function WorkspacesList() {
         <div className="title"><h4>Espacios de trabajo</h4></div>
         {isLoading ? (
           <p>Cargando...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : workspaces.length > 0 ? (
+          workspaces.map((workspace) => (
+            <Workspace key={workspace.id} workspace={workspace} />
+          ))
         ) : (
-          workspaces.length > 0 ? (
-            workspaces.map((workspace) => (
-              <Workspace key={workspace.id} workspace={workspace} />
-            ))
-          ) : (
-            <p>No hay workspaces disponibles.</p>
-          )
+          <p>No hay workspaces disponibles.</p>
         )}
       </div>
       <div className="workspaces-add">

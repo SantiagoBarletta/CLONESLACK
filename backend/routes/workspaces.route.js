@@ -1,9 +1,10 @@
 import express from "express";
 import { getAllWorkspaces, createWorkspace } from "../controllers/workspaces.controller.js";
+import authMiddleware from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", getAllWorkspaces); // Obtener todos los workspaces
-router.post("/", createWorkspace); // Crear un nuevo workspace
+router.get("/", authMiddleware, getAllWorkspaces); 
+router.post("/", authMiddleware, createWorkspace); 
 
 export default router;

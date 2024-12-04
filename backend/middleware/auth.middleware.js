@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import ENVIROMENT from '../config/enviroment.js';
 
-const authMiddleware = (roles_permitidos) => {
+const authMiddleware = () => {
   return (req, res, next) => {
     try {
       const auth_header = req.headers['authorization'];
@@ -18,17 +18,7 @@ const authMiddleware = (roles_permitidos) => {
 
       const user_session_payload_decoded = jwt.verify(access_Token, ENVIROMENT.SECRET_KEY);
 
-      if (!roles_permitidos.includes(user_session_payload_decoded.role)) {
-        console.log("Rol del usuario:", user_session_payload_decoded.role);
-        console.log("Roles permitidos:", roles_permitidos);
-        return res.status(403).json({
-            message: 'No tienes permiso para acceder a este recurso',
-            status: 403,
-        });
-    }
-    
-
-      // Asignar los datos del usuario decodificado a la request
+      // Asignar el usuario decodificado al request
       req.user = user_session_payload_decoded;
 
       next();

@@ -1,54 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NewWorkspace.css';
 
 function NewWorkspace() {
   const [name, setName] = useState('');
   const [channelName, setChannelName] = useState('');
-  const [redirect, setRedirect] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (name && channelName) {
-      const storedWorkspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
-      
-      const newWorkspaceId = `W00${storedWorkspaces.length ? parseInt(storedWorkspaces[storedWorkspaces.length - 1].id.substring(3)) + 1 : 1}`;
-      
-      let highestChannelIdNumber = 0;
-      storedWorkspaces.forEach(workspace => {
-        workspace.channels.forEach(channel => {
-          const channelIdNumber = parseInt(channel.id.substring(3));
-          if (channelIdNumber > highestChannelIdNumber) {
-            highestChannelIdNumber = channelIdNumber;
-          }
+      try {
+        const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+          },
+          body: JSON.stringify({
+            nombre: name,
+            canal: channelName,
+          }),
         });
-      });
-      const newChannelId = `C00${highestChannelIdNumber + 1}`;
 
-      const newWorkspace = {
-        id: newWorkspaceId,
-        name: name,
-        image: '/Imagenes/default-image.png',
-        users: [],
-        creation_date: new Date().toISOString(),
-        channels: [
-          {
-            id: newChannelId,
-            name: channelName
-          }
-        ]
-      };
-      const updatedWorkspaces = [...storedWorkspaces, newWorkspace];
-      localStorage.setItem('workspaces', JSON.stringify(updatedWorkspaces));
-      setRedirect(true);
+        if (!response.ok) {
+          throw new Error("Error al crear el workspace");
+        }
+
+        alert("Workspace creado con éxito");
+        window.location.href = "/";
+      } catch (error) {
+        alert("Error al crear el workspace: " + error.message);
+      }
     }
   };
-
-  useEffect(() => {
-    if (redirect) {
-      window.location.href = '/';
-    }
-  }, [redirect]);
 
   return (
     <div className='new-workspace-container'>
