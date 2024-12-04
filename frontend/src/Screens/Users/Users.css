@@ -7,6 +7,8 @@ body {
   }
   
   /* Contenedor principal */
+  .auth-screen-container,
+  .register-container,
   .login-container {
     max-width: 400px;
     margin: 50px auto;
@@ -14,27 +16,34 @@ body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    padding: 20px;
   }
   
   /* Encabezado */
+  .auth-header,
   .login-header {
-    background-color: #4a154b; /* Color característico de Slack */
+    background-color: #4a154b; /* Color principal de Slack */
     color: white;
     padding: 20px;
     text-align: center;
   }
   
+  .auth-header h1,
   .login-header h1 {
     margin: 0;
     font-size: 24px;
     font-weight: bold;
   }
   
-  /* Formulario */
+  /* Formularios */
+  .auth-form,
+  .register-form,
   .login-form {
     padding: 20px;
   }
   
+  .auth-form label,
+  .register-form label,
   .login-form label {
     display: block;
     margin-bottom: 5px;
@@ -42,6 +51,8 @@ body {
     color: #333;
   }
   
+  .auth-form input,
+  .register-form input,
   .login-form input {
     width: 100%;
     padding: 10px;
@@ -51,13 +62,17 @@ body {
     font-size: 14px;
   }
   
+  .auth-form input:focus,
+  .register-form input:focus,
   .login-form input:focus {
     outline: none;
     border-color: #4a154b;
     box-shadow: 0 0 4px rgba(74, 21, 75, 0.3);
   }
   
-  /* Botón */
+  /* Botones */
+  .auth-form button,
+  .register-form button,
   .login-form button {
     width: 100%;
     background-color: #4a154b;
@@ -70,11 +85,15 @@ body {
     transition: background-color 0.3s ease;
   }
   
+  .auth-form button:hover,
+  .register-form button:hover,
   .login-form button:hover {
     background-color: #7b1d7d;
   }
   
-  /* Enlace */
+  /* Enlaces */
+  .auth-form a,
+  .register-link,
   .login-form a {
     display: block;
     text-align: center;
@@ -84,23 +103,24 @@ body {
     font-size: 14px;
   }
   
+  .auth-form a:hover,
+  .register-link:hover,
   .login-form a:hover {
     text-decoration: underline;
   }
   
-  /* Estilo para el enlace de registro */
-.register-link {
-  display: block;
-  margin-top: 15px;
-  text-align: center;
-  color: #4a154b; /* Color principal de Slack */
-  font-size: 14px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
-
-.register-link:hover {
-  color: #7b1d7d; /* Un tono más claro al pasar el mouse */
-  text-decoration: underline;
-}
+  /* Mensajes de error o confirmación */
+  .error-message {
+    font-size: 14px;
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .message {
+    font-size: 14px;
+    color: #007a5a;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useForm from "@hooks/useForm";
 import { useNavigate } from "react-router-dom";
-import "./RegisterScreen.css";
+import "./Users.css";
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -31,29 +31,28 @@ const RegisterScreen = () => {
         body: JSON.stringify(formState),
       });
   
-      if (!response.ok) {
-        const errorText = await response.text(); // Captura la respuesta como texto para mayor claridad
-        console.error("Error en la API:", errorText); // Log detallado del error
-        throw new Error(errorText || "Error desconocido");
-      }
-  
       const data = await response.json();
-      if (!data.ok) {
+
+      if (!response.ok) {
+        // Manejar errores específicos
+        console.error("Error en la API:", data);
         setErrorState({
           name: "",
-          email: "",
+          email: data.code === "DUPLICATE_ERROR" ? data.message : "",
           password: "",
           general: data.message || "Error desconocido",
         });
-      } else {
-        setErrorState({
-          name: "",
-          email: "",
-          password: "",
-          general: "",
-        });
-        navigate("/login");
+        return;
       }
+
+      // Registro exitoso
+      setErrorState({
+        name: "",
+        email: "",
+        password: "",
+        general: "",
+      });
+      navigate("/login");
     } catch (error) {
       console.error("Error al procesar el registro:", error);
       setErrorState({
@@ -64,6 +63,7 @@ const RegisterScreen = () => {
       });
     }
   };
+
   
 
   return (
@@ -78,6 +78,7 @@ const RegisterScreen = () => {
           onChange={handleChange}
           required
         />
+        {errorState.name && <p className="error-message">{errorState.name}</p>}
         <label>Correo Electrónico</label>
         <input
           type="email"
@@ -86,6 +87,7 @@ const RegisterScreen = () => {
           onChange={handleChange}
           required
         />
+        {errorState.email && <p className="error-message">{errorState.email}</p>}
         <label>Contraseña</label>
         <input
           type="password"
@@ -94,8 +96,9 @@ const RegisterScreen = () => {
           onChange={handleChange}
           required
         />
+        {errorState.password && <p className="error-message">{errorState.password}</p>}
         <button type="submit">Registrar</button>
-        {errorState.general && <p className="error-message">{errorState.general}</p>}
+        
       </form>
     </div>
   );

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
 import ENVIROMENT from '../config/enviroment.js'
 
-const trasporterEmail = nodemailer.createTransport({
+const transporterEmail = nodemailer.createTransport({
     service: 'gmail',
     tls: {
         rejectUnauthorized: false
@@ -12,4 +12,4 @@ const trasporterEmail = nodemailer.createTransport({
     }
 })
 
-export default trasporterEmail
+export default transporterEmail

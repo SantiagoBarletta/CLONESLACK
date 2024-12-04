@@ -1,16 +1,16 @@
-import UsersModel from '../models/users.model.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import ResponseBuilder from '../helpers/builders/responseBuilders.js';
-import transporterEmail from '../helpers/emailTransporter.js';
-import ENVIROMENT from '../config/enviroment.js';
+import UsersModel from "../models/users.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import ResponseBuilder from "../helpers/builders/responseBuilders.js";
+import transporterEmail from "../helpers/emailTransporter.js";
+import ENVIROMENT from "../config/enviroment.js";
+import pool from "../config/dbconfig.js";
 
 // Controlador para registrar usuario
 export const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Validaciones básicas
     if (!name || !email || !password) {
       return res.status(400).json({
         ok: false,
@@ -19,7 +19,6 @@ export const registerController = async (req, res) => {
       });
     }
 
-    // Verificar si el email ya está registrado
     const [existingUser] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
     if (existingUser.length > 0) {
       return res.status(400).json({
@@ -29,18 +28,34 @@ export const registerController = async (req, res) => {
       });
     }
 
-    // Hashear la contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insertar nuevo usuario
+    // Generar un token de verificación
+    const verificationToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY, { expiresIn: "1d" });
+    console.log("Token generado:", verificationToken);
+
+
     await pool.query(
       "INSERT INTO users (name, email, password, emailVerified, verificationToken) VALUES (?, ?, ?, ?, ?)",
-      [name, email, hashedPassword, 0, ""]
+      [name, email, hashedPassword, 0, verificationToken]
     );
+
+    // Enviar correo
+    const verificationLink = `${ENVIROMENT.BACKEND_URL}/api/auth/verify-email/${verificationToken}`;
+    await transporterEmail.sendMail({
+      from: ENVIROMENT.EMAIL_USER,
+      to: email,
+      subject: "Verificación de cuenta",
+      html: `
+        <h1>Verifica tu cuenta</h1>
+        <p>Haz clic en el siguiente enlace para verificar tu cuenta:</p>
+        <a href="${verificationLink}">Verificar cuenta</a>
+      `,
+    });
 
     res.status(200).json({
       ok: true,
-      message: "Usuario registrado con éxito",
+      message: "Usuario registrado con éxito. Revisa tu correo para verificar tu cuenta.",
     });
   } catch (error) {
     console.error("Error en el registro:", error);
@@ -53,30 +68,49 @@ export const registerController = async (req, res) => {
 
 // Controlador para verificar email
 export const verifyEmailController = async (req, res) => {
+  // Extraer el token desde el parámetro correcto
+  const { validation_token: token } = req.params;
+
+  if (!token) {
+    console.error("Token no proporcionado");
+    return res.status(400).send(`
+      <h1>Error de verificación</h1>
+      <p>No se proporcionó un token de verificación.</p>
+    `);
+  }
+
   try {
-    const { validation_token } = req.params;
+    // Verificar el token
+    const payload = jwt.verify(token, ENVIROMENT.SECRET_KEY);
+    console.log("Payload decodificado:", payload);
 
-    // Verificar el token JWT
-    const payload = jwt.verify(validation_token, ENVIROMENT.SECRET_KEY);
-    const email = payload.email;
+    const { email } = payload;
 
-    // Verificar si el usuario existe
-    const user = await UsersModel.findByEmail(email);
+    // Buscar el usuario en la base de datos
+    const [user] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
     if (user.length === 0) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      console.log("Usuario no encontrado para el email:", email);
+      return res.status(404).send(`
+        <h1>Usuario no encontrado</h1>
+        <p>El enlace de verificación es inválido o el usuario ya fue eliminado.</p>
+      `);
     }
 
     // Actualizar el campo emailVerified
-    await UsersModel.verifyEmail(email);
+    await pool.query("UPDATE users SET emailVerified = 1 WHERE email = ?", [email]);
 
-    return res.status(200).json({ message: "Correo verificado con éxito" });
+    // Redirigir al login del frontend
+    res.redirect(`${ENVIROMENT.FRONTEND_URL}/login`);
   } catch (error) {
-    console.error("Error al verificar el email:", error);
-    return res.status(500).json({
-      message: "Error interno del servidor",
-    });
+    console.error("Error al verificar el token:", error.message);
+    res.status(400).send(`
+      <h1>Error de verificación</h1>
+      <p>El enlace de verificación es inválido o ha expirado.</p>
+    `);
   }
 };
+
+
 
 // Controlador para iniciar sesión
 export const loginController = async (req, res) => {
@@ -156,8 +190,13 @@ export const forgotPasswordController = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const resetToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY, { expiresIn: "1h" });
+    const resetToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY,{ expiresIn: "1h" } );
+    
     const resetUrl = `${ENVIROMENT.FRONTEND_URL}/recovery-password/${resetToken}`;
+
+    console.log("SECRET_KEY usada para firmar:", ENVIROMENT.SECRET_KEY);
+    console.log("Token generado:", resetToken);
+    
 
     await transporterEmail.sendMail({
       subject: "Recuperar contraseña",
@@ -178,11 +217,19 @@ export const forgotPasswordController = async (req, res) => {
 
 // Controlador para restablecer contraseña
 export const recoveryPasswordController = async (req, res) => {
-  try {
-    const { reset_token } = req.params;
-    const { password } = req.body;
+  const { reset_token } = req.params;
+  const { password } = req.body;
 
+  console.log("Token recibido para verificación:", reset_token);
+
+  if (!reset_token) {
+    return res.status(400).json({ message: "Token no proporcionado" });
+  }
+
+  try {
     const payload = jwt.verify(reset_token, ENVIROMENT.SECRET_KEY);
+    console.log("Payload decodificado:", payload);
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await UsersModel.updatePassword(payload.email, hashedPassword);
@@ -192,9 +239,9 @@ export const recoveryPasswordController = async (req, res) => {
       redirectUrl: `${ENVIROMENT.FRONTEND_URL}/login`,
     });
   } catch (error) {
-    console.error("Error al restablecer contraseña:", error);
-    return res.status(500).json({
-      message: "Error del servidor",
+    console.error("Error al verificar el token:", error.message);
+    return res.status(400).json({
+      message: "Token inválido o malformado.",
     });
   }
 };
