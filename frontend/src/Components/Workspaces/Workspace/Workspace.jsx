@@ -4,11 +4,9 @@ import { FaArrowRight } from "react-icons/fa6";
 import "./Workspace.css";
 
 function Workspace({ workspace }) {
-  const { id, nombre, image, users, channels } = workspace;
+  const { id, name, image, users = [], channels = [] } = workspace;
 
-  const firstChannel = channels?.[0];
-
-  if (!firstChannel) {
+  if (channels.length === 0) {
     return (
       <div className="workspace-item">
         <p>Este workspace no tiene canales disponibles.</p>
@@ -16,15 +14,16 @@ function Workspace({ workspace }) {
     );
   }
 
+  const firstChannel = channels[0];
   return (
     <Link className="workspaces-link" to={`/workspaces/${id}/${firstChannel.id}`}>
       <div key={id} className="workspace-item">
-        <img src={image} alt={nombre} />
+        <img src={image || "/path/to/default-image.jpg"} alt={name} />
         <div className="datos">
-          <p className="name">{nombre}</p>
+          <p className="name">{name}</p>
           <p className="members">
             {users.map((user, index) => (
-              <img className="member" key={index} src={user.foto_perfil} alt={user.username} />
+              <img className="member" key={index} src={user.foto_perfil || "/path/to/default-user.jpg"} alt={user.name} />
             ))}
             {users.length} miembros
           </p>
@@ -34,5 +33,6 @@ function Workspace({ workspace }) {
     </Link>
   );
 }
+
 
 export default Workspace;

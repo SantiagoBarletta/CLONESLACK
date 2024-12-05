@@ -23,7 +23,13 @@ function WorkspacesList() {
         }
 
         const data = await response.json();
-        setWorkspaces(data.workspaces);
+
+        if (data.ok && data.data.length === 0) {
+          setWorkspaces([]);
+          setError("No hay espacios de trabajo disponibles.");
+        } else {
+          setWorkspaces(data.data);
+        }
       } catch (error) {
         setError(error.message);
       } finally {
@@ -33,6 +39,8 @@ function WorkspacesList() {
 
     fetchWorkspaces();
   }, []);
+
+
 
   return (
     <>
@@ -47,8 +55,9 @@ function WorkspacesList() {
             <Workspace key={workspace.id} workspace={workspace} />
           ))
         ) : (
-          <p>No hay workspaces disponibles.</p>
+          <p>No hay espacios de trabajo disponibles.</p>
         )}
+
       </div>
       <div className="workspaces-add">
         <img src="Imagenes/jasonicon.png" alt="logo" />
@@ -57,6 +66,8 @@ function WorkspacesList() {
       </div>
     </>
   );
+
+
 }
 
 export default WorkspacesList;
