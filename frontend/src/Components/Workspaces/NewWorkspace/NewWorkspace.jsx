@@ -9,30 +9,35 @@ function NewWorkspace() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name && channelName) {
-      try {
-        const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
-          },
-          body: JSON.stringify({
-            nombre: name,
-            canal: channelName,
-          }),
-        });
+        try {
+            const token = sessionStorage.getItem("access-token");
 
-        if (!response.ok) {
-          throw new Error("Error al crear el workspace");
+            const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    description: `Canal inicial: ${channelName}`,
+                    image: "/Imagenes/default-image.png",
+                    token, // Incluye el token en el cuerpo
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error al crear el workspace");
+            }
+
+            alert("Workspace creado con éxito");
+            window.location.href = "/";
+        } catch (error) {
+            alert("Error al crear el workspace: " + error.message);
         }
-
-        alert("Workspace creado con éxito");
-        window.location.href = "/";
-      } catch (error) {
-        alert("Error al crear el workspace: " + error.message);
-      }
     }
-  };
+};
+
+  
 
   return (
     <div className='new-workspace-container'>
