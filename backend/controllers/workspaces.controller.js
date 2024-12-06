@@ -93,3 +93,21 @@ export const createChannelController = async (req, res) => {
       res.status(500).json({ ok: false, message: "Error interno del servidor" });
   }
 };
+
+export const getMessagesByChannelController = async (req, res) => {
+  const { channelID } = req.params;
+
+  try {
+      const messages = await WorkspacesRepository.getMessagesByChannel(channelID);
+      res.status(200).json({
+          ok: true,
+          data: messages,
+      });
+  } catch (error) {
+      console.error("Error al obtener mensajes:", error);
+      res.status(500).json({
+          ok: false,
+          message: "Error al obtener mensajes. Intenta más tarde.",
+      });
+  }
+};

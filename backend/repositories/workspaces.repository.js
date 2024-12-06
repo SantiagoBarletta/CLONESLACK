@@ -170,6 +170,26 @@ static async addMemberToWorkspace(workspaceID, userID) {
         throw error;
     }
 }
+
+
+static async getMessagesByChannel(channelID) {
+  const query = `
+      SELECT cm.id, cm.author_id, cm.channel_id, cm.text, cm.date, u.username AS author_name, u.foto_perfil AS author_image
+      FROM channel_messages cm
+      JOIN users u ON cm.author_id = u.id
+      WHERE cm.channel_id = ? AND cm.activo = 1
+  `;
+  try {
+      const [messages] = await pool.query(query, [channelID]);
+      return messages;
+  } catch (error) {
+      console.error("Error en WorkspacesRepository.getMessagesByChannel:", error);
+      throw error;
+  }
+}
+
+
+
 }
   
 
