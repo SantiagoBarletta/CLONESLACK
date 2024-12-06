@@ -39,11 +39,14 @@ export const registerController = async (req, res) => {
     // Generar un token de verificación
     const verificationToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY, { expiresIn: "1d" });
 
+    // Ruta de la imagen de perfil por defecto
+    const defaultProfileImage = "/Imagenes/user.png";
+
     // Insertar nuevo usuario
     await pool.query(
-      `INSERT INTO users (firstname, lastname, username, email, password, emailVerified, verificationToken) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [firstname, lastname, username, email, hashedPassword, 0, verificationToken]
+      `INSERT INTO users (firstname, lastname, username, email, password, emailVerified, verificationToken, foto_perfil) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [firstname, lastname, username, email, hashedPassword, 0, verificationToken, defaultProfileImage]
     );
 
     // Enviar correo de verificación

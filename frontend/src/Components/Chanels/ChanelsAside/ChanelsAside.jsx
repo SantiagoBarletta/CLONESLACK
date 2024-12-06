@@ -62,7 +62,7 @@ const ChanelsAside = ({ onSelectUser, viewInfo, setViewInfo, onClose  }) => {
           <>
             {users.map((user, index) => (
               <div key={index} onClick={() => { setViewInfo('infoContainer'); onSelectUser(user); }} className='link' >
-                <img src={user.profile_image} className='member'/>
+                <img src={user.foto_perfil} className='member'/>
                 <p key={index}>{user.username}</p>
               </div>
             ))}

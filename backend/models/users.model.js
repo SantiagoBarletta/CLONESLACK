@@ -13,13 +13,18 @@ const UsersModel = {
   // Crear un nuevo usuario
   create: async (user) => {
     const { firstname, lastname, username, email, password, emailVerified, verificationToken } = user;
+  
+    // Ruta de la imagen de perfil por defecto
+    const defaultProfileImage = "/Imagenes/user.png";
+  
     const [result] = await pool.query(
-      `INSERT INTO users (firstname, lastname, username, email, password, emailVerified, verificationToken) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
-      [firstname, lastname, username, email, password, emailVerified, verificationToken]
+      `INSERT INTO users (firstname, lastname, username, email, password, emailVerified, verificationToken, foto_perfil) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [firstname, lastname, username, email, password, emailVerified, verificationToken, defaultProfileImage]
     );
     return result.insertId;
   },
+  
 
   // Verificar el email de un usuario
   verifyEmail: async (email) => {
