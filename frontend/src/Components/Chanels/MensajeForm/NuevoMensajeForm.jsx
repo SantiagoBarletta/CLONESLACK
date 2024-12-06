@@ -7,40 +7,32 @@ const NuevoMensajeForm = ({ onNewMessage }) => {
   const { workspaceID, channelID } = useParams();
   const [text, setText] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (text.trim()) {
-      const storedWorkspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
-      const foundWorkspace = storedWorkspaces.find(ws => ws.id === workspaceID);
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_URL_API}/api/workspaces/${workspaceID}/channels/${channelID}/messages`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+                },
+                body: JSON.stringify({ text }),
+            }
+        );
 
-      if (foundWorkspace) {
-        const foundChannel = foundWorkspace.channels.find(ch => ch.id === channelID);
+        if (!response.ok) throw new Error("Error al enviar el mensaje");
 
-        if (foundChannel) {
-          
-          const newMessageId = foundChannel.messages && foundChannel.messages.length 
-            ? `M00${parseInt(foundChannel.messages[foundChannel.messages.length - 1].id.substring(3)) + 1}` : 'M001';
-
-          const newMessage = {
-            id: newMessageId,
-            author: 'Yo',
-            author_image: '/Imagenes/default-image.png', 
-            date: new Date().toISOString(),
-            text: text.trim(),
-          };
-
-          
-          if (!foundChannel.messages) {foundChannel.messages = [];}
-
-          foundChannel.messages.push(newMessage);
-          localStorage.setItem('workspaces', JSON.stringify(storedWorkspaces));
-          onNewMessage(newMessage);
-          setText('');
-        }
-      }
+        const newMessage = await response.json();
+        onNewMessage(newMessage.data);
+        setText("");
+    } catch (error) {
+        console.error("Error al enviar mensaje:", error);
     }
-  };
+};
+
 
   return (
     <div>

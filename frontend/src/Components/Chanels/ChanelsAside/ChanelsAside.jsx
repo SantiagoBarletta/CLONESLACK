@@ -13,19 +13,28 @@ const ChanelsAside = ({ onSelectUser, viewInfo, setViewInfo, onClose  }) => {
   const [workspaceName, setWorkspaceName] = useState('');
   
   useEffect(() => {
-    const storedWorkspaces = localStorage.getItem('workspaces');
-    
-    if (storedWorkspaces) {
-      const workspaces = JSON.parse(storedWorkspaces);
-      const workspaceEncontrado = workspaces.find(ws => ws.id === workspaceID);
-      if (workspaceEncontrado) {
-        setWorkspace(workspaceEncontrado);
-        setWorkspaceName(workspaceEncontrado.name);
-        setChannels(workspaceEncontrado.channels);
-        setUsers(workspaceEncontrado.users);
-      }
-    } 
-  }, [workspaceID]);
+    const fetchWorkspaceDetails = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_URL_API}/api/workspaces/${workspaceID}`, {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+                },
+            });
+
+            if (!response.ok) throw new Error("Error al obtener los detalles del workspace");
+
+            const data = await response.json();
+            setWorkspace(data.data);
+            setWorkspaceName(data.data.name);
+            setChannels(data.data.channels);
+            setUsers(data.data.users);
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
+    fetchWorkspaceDetails();
+}, [workspaceID]);
 
   return (
     <div className="chanels-aside">

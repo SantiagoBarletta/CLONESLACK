@@ -58,7 +58,7 @@ class WorkspacesRepository {
    */
   static async createWorkspace(new_workspace_data) {
     const { name, description, image, administrador_id } = new_workspace_data;
-  
+
     const workspaceQuery = `
       INSERT INTO workspaces (name, descripcion, image, administrador_id, activo)
       VALUES (?, ?, ?, ?, 1)
@@ -71,39 +71,107 @@ class WorkspacesRepository {
       INSERT INTO channels (name, workspace_id, activo)
       VALUES (?, ?, 1)
     `;
-  
+
     try {
-      // Crear el workspace
-      const [workspaceResult] = await pool.query(workspaceQuery, [
-        name,
-        description || null,
-        image || null,
-        administrador_id,
-      ]);
-  
-      const workspaceId = workspaceResult.insertId;
-  
-      // Registrar al creador como miembro
-      await pool.query(memberQuery, [workspaceId, administrador_id]);
-  
-      // Crear el canal principal
-      const channelName = description ? `Canal inicial: ${description}` : "General";
-      await pool.query(channelQuery, [channelName, workspaceId]);
-  
-      return {
-        id: workspaceId,
-        name,
-        description,
-        image,
-        administrador_id,
-      };
+        // Crear el workspace
+        const [workspaceResult] = await pool.query(workspaceQuery, [
+            name,
+            description || null,
+            image || null,
+            administrador_id,
+        ]);
+
+        const workspaceId = workspaceResult.insertId;
+
+        // Registrar al creador como miembro
+        await pool.query(memberQuery, [workspaceId, administrador_id]);
+
+        // Crear el canal principal (siempre llamado "General")
+        await pool.query(channelQuery, ["General", workspaceId]);
+
+        return {
+            id: workspaceId,
+            name,
+            description,
+            image,
+            administrador_id,
+        };
     } catch (error) {
-      console.error("Error en WorkspacesRepository.createWorkspace:", error);
-      throw error;
+        console.error("Error en WorkspacesRepository.createWorkspace:", error);
+        throw error;
     }
-  }
-  
-  
 }
+  
+  static async getWorkspaceByIdWithDetails(workspaceID) {
+    const workspaceQuery = `
+        SELECT w.id, w.name, w.image, c.id AS channel_id, c.name AS channel_name, u.id AS user_id, u.username, u.foto_perfil
+        FROM workspaces w
+        LEFT JOIN channels c ON w.id = c.workspace_id AND c.activo = 1
+        LEFT JOIN workspace_members wm ON w.id = wm.workspace_id
+        LEFT JOIN users u ON wm.user_id = u.id AND wm.activo = 1
+        WHERE w.id = ? AND w.activo = 1
+    `;
+    const [rows] = await pool.query(workspaceQuery, [workspaceID]);
+
+    if (!rows.length) return null;
+
+    const workspace = {
+        id: rows[0].id,
+        name: rows[0].name,
+        image: rows[0].image,
+        channels: [],
+        users: [],
+    };
+
+    rows.forEach((row) => {
+        if (row.channel_id && !workspace.channels.find((c) => c.id === row.channel_id)) {
+            workspace.channels.push({ id: row.channel_id, name: row.channel_name });
+        }
+        if (row.user_id && !workspace.users.find((u) => u.id === row.user_id)) {
+            workspace.users.push({ id: row.user_id, username: row.username, foto_perfil: row.foto_perfil });
+        }
+    });
+
+    return workspace;
+}
+
+static async createChannel(workspaceID, name) {
+    const query = "INSERT INTO channels (workspace_id, name, activo) VALUES (?, ?, 1)";
+    const [result] = await pool.execute(query, [workspaceID, name]);
+
+    if (result.affectedRows === 0) {
+        throw new Error("No se pudo crear el canal");
+    }
+
+    return { id: result.insertId, name, workspace_id: workspaceID };
+}
+
+static async addMemberToWorkspace(workspaceID, userID) {
+    const checkMembershipQuery = `
+        SELECT * FROM workspace_members 
+        WHERE workspace_id = ? AND user_id = ? AND activo = 1
+    `;
+    const addMembershipQuery = `
+        INSERT INTO workspace_members (workspace_id, user_id, activo)
+        VALUES (?, ?, 1)
+    `;
+
+    try {
+        const [existingMembership] = await pool.query(checkMembershipQuery, [workspaceID, userID]);
+
+        if (existingMembership.length === 0) {
+            await pool.query(addMembershipQuery, [workspaceID, userID]);
+            console.log(`Usuario ${userID} agregado como miembro al workspace ${workspaceID}`);
+        } else {
+            console.log(`Usuario ${userID} ya es miembro del workspace ${workspaceID}`);
+        }
+    } catch (error) {
+        console.error("Error al verificar/agregar miembro al workspace:", error);
+        throw error;
+    }
+}
+}
+  
+
 
 export default WorkspacesRepository;

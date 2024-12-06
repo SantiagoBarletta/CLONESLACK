@@ -2,23 +2,24 @@ import express from "express";
 import {
     createWorkspaceController,
     getAllWorkspacesController,
-    getWorkspaceByIdController,
-    updateWorkspaceController,
-    deleteWorkspaceController,
+    getWorkspaceDetailsController,
+    createChannelController
 } from "../controllers/workspaces.controller.js";
-import authMiddleware from "../middleware/auth.middleware.js";
+import addMemberMiddleware from "../middleware/addMember.middleware.js";
+
 
 const router = express.Router();
 
 
 
 router.get("/", getAllWorkspacesController);
-router.get("/:workspace_id",  getWorkspaceByIdController);
+router.get("/:workspaceID", addMemberMiddleware, getWorkspaceDetailsController);
+router.post("/:workspaceID/channels", createChannelController); // Crear canal
 router.post("/", createWorkspaceController);
 
 
   
-router.put("/:workspace_id", authMiddleware, updateWorkspaceController); 
-router.delete("/:workspace_id", authMiddleware, deleteWorkspaceController); 
+
+
 
 export default router;

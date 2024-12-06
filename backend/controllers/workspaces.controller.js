@@ -66,73 +66,30 @@ export const getAllWorkspacesController = async (req, res, next) => {
 
 
 // Obtener un workspace por su ID
-export const getWorkspaceByIdController = async (req, res, next) => {
-    try {
-        const { workspace_id } = req.params;
-        const workspace = await WorkspacesRepository.getWorkspaceById(workspace_id);
+export const getWorkspaceDetailsController = async (req, res) => {
+  const { workspaceID } = req.params;
 
-        if (!workspace) {
-            return next(new AppError('Workspace no encontrado', 404));
-        }
-
-        const response = new ResponseBuilder()
-            .setOk(true)
-            .setCode('SUCCESS')
-            .setStatus(200)
-            .setData(workspace)
-            .build();
-
-        res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
+  try {
+      const workspace = await WorkspacesRepository.getWorkspaceByIdWithDetails(workspaceID);
+      if (!workspace) {
+          return res.status(404).json({ ok: false, message: "Workspace no encontrado" });
+      }
+      res.status(200).json({ ok: true, data: workspace });
+  } catch (error) {
+      console.error("Error al obtener detalles del workspace:", error);
+      res.status(500).json({ ok: false, message: "Error interno del servidor" });
+  }
 };
 
-// Actualizar un workspace por ID
-export const updateWorkspaceController = async (req, res, next) => {
-    try {
-        const { workspace_id } = req.params;
-        const updated_data = req.body;
+export const createChannelController = async (req, res) => {
+  const { workspaceID } = req.params;
+  const { name } = req.body;
 
-        const updatedWorkspace = await WorkspacesRepository.updateWorkspace(workspace_id, updated_data);
-
-        if (!updatedWorkspace) {
-            return next(new AppError('Workspace no encontrado', 404));
-        }
-
-        const response = new ResponseBuilder()
-            .setOk(true)
-            .setCode('WORKSPACE_UPDATED')
-            .setStatus(200)
-            .setData(updatedWorkspace)
-            .build();
-
-        res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
-};
-
-// Eliminar (desactivar) un workspace
-export const deleteWorkspaceController = async (req, res, next) => {
-    try {
-        const { workspace_id } = req.params;
-
-        const deletedWorkspace = await WorkspacesRepository.deleteWorkspace(workspace_id);
-
-        if (!deletedWorkspace) {
-            return next(new AppError('Workspace no encontrado', 404));
-        }
-
-        const response = new ResponseBuilder()
-            .setOk(true)
-            .setCode('WORKSPACE_DELETED')
-            .setStatus(200)
-            .setData(deletedWorkspace)
-            .build();
-
-        res.status(200).json(response);
-    } catch (error) {
-        next(error);
-    }
+  try {
+      const newChannel = await WorkspacesRepository.createChannel(workspaceID, name);
+      res.status(201).json({ ok: true, data: newChannel });
+  } catch (error) {
+      console.error("Error al crear canal:", error);
+      res.status(500).json({ ok: false, message: "Error interno del servidor" });
+  }
 };
