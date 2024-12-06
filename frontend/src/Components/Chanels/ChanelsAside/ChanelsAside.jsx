@@ -11,33 +11,44 @@ const ChanelsAside = ({ onSelectUser, viewInfo, setViewInfo, onClose  }) => {
   const [channels, setChannels] = useState([]);
   const [users, setUsers] = useState([]);
   const [workspaceName, setWorkspaceName] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
     const fetchWorkspaceDetails = async () => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_URL_API}/api/workspaces/${workspaceID}`, {
-                headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
-                },
-            });
-
-            if (!response.ok) throw new Error("Error al obtener los detalles del workspace");
-
-            const data = await response.json();
-            setWorkspace(data.data);
-            setWorkspaceName(data.data.name);
-            setChannels(data.data.channels);
-            setUsers(data.data.users);
-        } catch (error) {
-            console.error("Error:", error);
-        }
-    };
+      setIsLoading(true);
+      try {
+          const response = await fetch(`${import.meta.env.VITE_URL_API}/api/workspaces/${workspaceID}`, {
+              headers: {
+                  Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+              },
+          });
+  
+          if (!response.ok) throw new Error("Error al obtener los detalles del workspace");
+  
+          const data = await response.json();
+          setWorkspace(data.data);
+          setWorkspaceName(data.data.name);
+          setChannels(data.data.channels);
+          setUsers(data.data.users);
+      } catch (error) {
+          console.error("Error:", error);
+          setWorkspaceName("Error al cargar workspace");
+      }
+      finally {
+        setIsLoading(false);
+    }
+      
+  };
+  
 
     fetchWorkspaceDetails();
 }, [workspaceID]);
 
-  return (
-    <div className="chanels-aside">
+return (
+  <div className="chanels-aside">
+      {isLoading ? (
+          <p>Cargando...</p>
+      ) : (<>
       <h2>{workspaceName} <IoIosArrowDown className='arrow'  /><button className="close-button" onClick={onClose}>
         <FaTimes />
       </button></h2>
@@ -71,8 +82,8 @@ const ChanelsAside = ({ onSelectUser, viewInfo, setViewInfo, onClose  }) => {
         ) : (
           <p>No hay miembros en este workspace</p>
         )}
+      </div></>)}
       </div>
-    </div>
   );
 }
 

@@ -1,55 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import './NewChannel.css';
 
 const NewChannel = () => {
   const { workspaceID } = useParams();
   const [channelName, setChannelName] = useState('');
-  const [redirect, setRedirect] = useState(false);
-  const [newChannelId, setNewChannelId] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (channelName) {
-      const storedWorkspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
-      const workspaceEncontrado = storedWorkspaces.find(ws => ws.id === workspaceID);
+    if (!channelName) return;
 
-      if (workspaceEncontrado) {
-        let highestChannelIdNumber = 0;
-        workspaceEncontrado.channels.forEach(channel => {
-          const channelIdNumber = parseInt(channel.id.substring(3));
-          if (channelIdNumber > highestChannelIdNumber) {
-            highestChannelIdNumber = channelIdNumber;
-          }
-        });
-        const newChannelId = `C00${highestChannelIdNumber + 1}`;
-        setNewChannelId(newChannelId);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_URL_API}/api/workspaces/${workspaceID}/channels`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: channelName }),
+      });
 
-
-        const newChannel = {
-          id: newChannelId,
-          name: channelName,
-          messages: []
-        };
-
-        workspaceEncontrado.channels.push(newChannel);
-        localStorage.setItem('workspaces', JSON.stringify(storedWorkspaces));
-        setRedirect(true);
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || "Error al crear el canal");
       }
+
+      const data = await response.json();
+      alert("Canal creado con éxito");
+      window.location.href = `/workspaces/${workspaceID}/${data.data.id}`;
+    } catch (error) {
+      setError(error.message);
     }
   };
-
-  const navegar = useNavigate();
-
-  const handleAtras = () => {
-    navegar(-1);
-  };
-
-  useEffect(() => {
-    if (redirect) {
-      window.location.href = `/workspaces/${workspaceID}/${newChannelId}`;
-    }
-  }, [redirect, workspaceID, newChannelId]);
 
   return (
     <div className='main-container-new-channel'>
@@ -66,11 +48,10 @@ const NewChannel = () => {
               maxLength="20"
             />
           </div>
-          <p className='ayuda'>Los canales son el lugar donde se producen las conversaciones sobre un tema.
-            <br />Usa un nombre que sea fácil de encontrar y comprender.</p>
+          {error && <p className='error'>{error}</p>}
           <div className='botones'>
             <button type="submit">Crear Canal</button>
-            <Link onClick={handleAtras}>Cancelar</Link>
+            <Link to={`/workspaces/${workspaceID}`}>Cancelar</Link>
           </div>
         </form>
       </div>
