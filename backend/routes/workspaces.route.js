@@ -12,15 +12,13 @@ const router = express.Router();
 
 
 
-router.get("/",  getAllWorkspacesController);
-router.get("/:workspace_id",  getWorkspaceByIdController); // Obtener un workspace por ID
-router.post("/",  (req, res, next) => {
-    console.log("Solicitud POST llegó al backend:", req.method, req.body);
-    next();
-}, createWorkspaceController);
+router.get("/", getAllWorkspacesController);
+router.get("/:workspace_id",  getWorkspaceByIdController);
+router.post("/", createWorkspaceController);
+
 
   
-router.put("/:workspace_id", authMiddleware, updateWorkspaceController); // Actualizar un workspace
-router.delete("/:workspace_id", authMiddleware, deleteWorkspaceController); // Desactivar un workspace
+router.put("/:workspace_id", authMiddleware, updateWorkspaceController); 
+router.delete("/:workspace_id", authMiddleware, deleteWorkspaceController); 
 
 export default router;

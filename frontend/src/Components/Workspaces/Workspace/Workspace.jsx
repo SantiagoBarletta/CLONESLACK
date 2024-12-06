@@ -34,5 +34,4 @@ function Workspace({ workspace }) {
   );
 }
 
-
 export default Workspace;

@@ -6,77 +6,60 @@ import AppError from "../helpers/errors/app.error.js";
 import ChannelsRepository from "../repositories/channels.repository.js";
 
 // Crear un nuevo workspace
-export const createWorkspaceController = async (req, res) => {
+export const createWorkspaceController = async (req, res, next) => {
   try {
-      const { name, description, image, token } = req.body; // Incluye el token en el cuerpo de la solicitud
+    const { name, description, image, token } = req.body;
 
-      if (!name) {
-          return res.status(400).json({
-              ok: false,
-              message: "El nombre del workspace es obligatorio",
-          });
-      }
+    // Decodificar el token para obtener el administrador_id
+    const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
+    const administrador_id = decodedToken.user_id;
 
-      // Decodificar el token JWT para obtener el user_id
-      let administrador_id;
-      try {
-          const decoded = jwt.verify(token, ENVIROMENT.SECRET_KEY);
-          administrador_id = decoded.user_id;
-      } catch (error) {
-          return res.status(401).json({
-              ok: false,
-              message: "Token inválido o expirado",
-          });
-      }
+    if (!administrador_id) {
+      throw new Error("No se pudo obtener el ID del usuario autenticado.");
+    }
 
-      // Crear el workspace
-      const newWorkspace = await WorkspacesRepository.createWorkspace({
-          name,
-          description: description || null,
-          image: image || "/Imagenes/default-image.png",
-          administrador_id,
-      });
+    // Crear el workspace
+    const newWorkspace = await WorkspacesRepository.createWorkspace({
+      name,
+      description,
+      image,
+      administrador_id,
+    });
 
-      // Crear el canal principal del workspace
-      const mainChannel = await ChannelsRepository.createChannel({
-          name: "General", // Nombre predeterminado del canal principal
-          workspace_id: newWorkspace.id,
-      });
-
-      // Responder con los datos del workspace y su canal principal
-      res.status(201).json({
-          ok: true,
-          message: "Workspace creado con éxito",
-          data: {
-              workspace: newWorkspace,
-              main_channel: mainChannel,
-          },
-      });
+    res.status(201).json({
+      ok: true,
+      message: "Workspace creado con éxito",
+      data: newWorkspace,
+    });
   } catch (error) {
-      console.error("Error al crear workspace:", error);
-      res.status(500).json({
-          ok: false,
-          message: "Error interno del servidor al crear el workspace.",
-      });
+    console.error("Error al crear workspace:", error);
+    res.status(500).json({
+      ok: false,
+      message: error.message || "Error al crear el workspace. Intenta más tarde.",
+    });
   }
 };
 
+
+
 // Obtener todos los workspaces activos
-export const getAllWorkspacesController = async (req, res) => {
+export const getAllWorkspacesController = async (req, res, next) => {
   try {
     const workspaces = await WorkspacesRepository.getAllWorkspaces();
-    console.log("Workspaces obtenidos:", workspaces);
 
-    return res.status(200).json({
-      ok: true,
-      message: "Workspaces obtenidos con éxito",
-      data: workspaces,
-    });
+    const response = new ResponseBuilder()
+      .setOk(true)
+      .setCode("SUCCESS")
+      .setStatus(200)
+      .setData(workspaces)
+      .build();
+
+    res.status(200).json(response);
   } catch (error) {
-    console.error("Error al obtener workspaces:", error);
-    return res.status(500).json({
+    console.error("Error al obtener los workspaces:", error);
+    res.status(500).json({
       ok: false,
-      message: "Error al obtener workspaces",
+      message: "Error al obtener los espacios de trabajo.",
     });
   }
 };

@@ -4,39 +4,39 @@ import './NewWorkspace.css';
 
 function NewWorkspace() {
   const [name, setName] = useState('');
-  const [channelName, setChannelName] = useState('');
+  const [description, setDescription] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (name && channelName) {
-        try {
-            const token = sessionStorage.getItem("access-token");
-
-            const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name,
-                    description: `Canal inicial: ${channelName}`,
-                    image: "/Imagenes/default-image.png",
-                    token, // Incluye el token en el cuerpo
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error("Error al crear el workspace");
-            }
-
-            alert("Workspace creado con éxito");
-            window.location.href = "/";
-        } catch (error) {
-            alert("Error al crear el workspace: " + error.message);
+    if (name && description) {
+      try {
+        const token = sessionStorage.getItem("access-token");
+  
+        const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            description: `${description} (Creado por ${sessionStorage.getItem("username")})`,
+            image: "/Imagenes/default-image.png",
+            token,
+          }),
+        });
+  
+        if (!response.ok) {
+          throw new Error("Error al crear el workspace");
         }
+  
+        alert("Workspace creado con éxito");
+        window.location.href = "/";
+      } catch (error) {
+        alert("Error al crear el workspace: " + error.message);
+      }
     }
-};
-
+  };
+  
   
 
   return (
@@ -54,11 +54,11 @@ function NewWorkspace() {
           />
         </div>
         <div>
-          <label>Canal:</label>
+          <label>Descripción:</label>
           <input
             type="text"
-            value={channelName}
-            onChange={(e) => setChannelName(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             required
             maxLength="20"
           />

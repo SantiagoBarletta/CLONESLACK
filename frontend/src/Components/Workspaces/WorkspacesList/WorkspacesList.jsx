@@ -12,9 +12,16 @@ function WorkspacesList() {
     const fetchWorkspaces = async () => {
       try {
         setIsLoading(true);
+
+        const token = sessionStorage.getItem("access-token");
+        if (!token) {
+          throw new Error("No se encontró el token de acceso.");
+        }
+
         const response = await fetch(import.meta.env.VITE_URL_API + "/api/workspaces", {
           headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -24,11 +31,11 @@ function WorkspacesList() {
 
         const data = await response.json();
 
-        if (data.ok && data.data.length === 0) {
+        if (data.ok && Array.isArray(data.data)) {
+          setWorkspaces(data.data);
+        } else {
           setWorkspaces([]);
           setError("No hay espacios de trabajo disponibles.");
-        } else {
-          setWorkspaces(data.data);
         }
       } catch (error) {
         setError(error.message);
@@ -39,8 +46,6 @@ function WorkspacesList() {
 
     fetchWorkspaces();
   }, []);
-
-
 
   return (
     <>
@@ -57,7 +62,6 @@ function WorkspacesList() {
         ) : (
           <p>No hay espacios de trabajo disponibles.</p>
         )}
-
       </div>
       <div className="workspaces-add">
         <img src="Imagenes/jasonicon.png" alt="logo" />
@@ -66,8 +70,6 @@ function WorkspacesList() {
       </div>
     </>
   );
-
-
 }
 
 export default WorkspacesList;
