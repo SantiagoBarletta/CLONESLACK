@@ -64,7 +64,21 @@
   .workspaces-header.search-visible .logo {
     display: none; 
   }
-
+  
+  .logout-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+  
+  .logout-button:hover {
+    background-color: #c9302c;
+  }
+  
    
 @media screen and (max-width: 768px) {
   .workspaces-header{

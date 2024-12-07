@@ -162,9 +162,8 @@ static async addMemberToWorkspace(workspaceID, userID) {
         if (existingMembership.length === 0) {
             await pool.query(addMembershipQuery, [workspaceID, userID]);
             console.log(`Usuario ${userID} agregado como miembro al workspace ${workspaceID}`);
-        } else {
-            console.log(`Usuario ${userID} ya es miembro del workspace ${workspaceID}`);
-        }
+        } 
+        
     } catch (error) {
         console.error("Error al verificar/agregar miembro al workspace:", error);
         throw error;
@@ -174,10 +173,13 @@ static async addMemberToWorkspace(workspaceID, userID) {
 
 static async getMessagesByChannel(channelID) {
   const query = `
-      SELECT cm.id, cm.author_id, cm.channel_id, cm.text, cm.date, u.username AS author_name, u.foto_perfil AS author_image
-      FROM channel_messages cm
-      JOIN users u ON cm.author_id = u.id
-      WHERE cm.channel_id = ? AND cm.activo = 1
+      SELECT cm.id, cm.author_id, cm.channel_id, cm.text, cm.date, 
+             u.username AS author_name, u.foto_perfil AS author_image,
+             c.name AS channel_name, CONCAT(u.firstname, ' ', u.lastname) AS author_fullname
+      FROM channels c
+      LEFT JOIN channel_messages cm ON cm.channel_id = c.id AND cm.activo = 1
+      LEFT JOIN users u ON cm.author_id = u.id
+      WHERE c.id = ? AND c.activo = 1;
   `;
   try {
       const [messages] = await pool.query(query, [channelID]);
@@ -188,6 +190,66 @@ static async getMessagesByChannel(channelID) {
   }
 }
 
+static async createMessage({ author_id, channel_id, text }) {
+  const query = `
+      INSERT INTO channel_messages (author_id, channel_id, text, date, activo)
+      VALUES (?, ?, ?, NOW(), 1)
+  `;
+
+  try {
+      const [result] = await pool.query(query, [author_id, channel_id, text]);
+
+      if (result.affectedRows === 0) {
+          throw new Error("No se pudo insertar el mensaje");
+      }
+
+      return {
+          id: result.insertId,
+          author_id,
+          channel_id,
+          text,
+          date: new Date(), // Fecha del mensaje
+      };
+  } catch (error) {
+      console.error("Error en WorkspacesRepository.createMessage:", error);
+      throw error;
+  }
+}
+
+static async getMessageById(messageID) {
+  const query = `
+      SELECT id, author_id 
+      FROM channel_messages 
+      WHERE id = ? AND activo = 1
+  `;
+
+  try {
+      const [rows] = await pool.query(query, [messageID]);
+      return rows[0] || null; // Retorna el mensaje o null si no existe
+  } catch (error) {
+      console.error("Error en WorkspacesRepository.getMessageById:", error);
+      throw error;
+  }
+}
+
+
+
+static async deleteMessage(messageID) {
+  const query = `
+      UPDATE channel_messages 
+      SET activo = 0 
+      WHERE id = ? AND activo = 1
+  `;
+
+  try {
+      const [result] = await pool.query(query, [messageID]);
+
+      return result.affectedRows > 0; // Retorna true si se modificó al menos una fila
+  } catch (error) {
+      console.error("Error en WorkspacesRepository.deleteMessage:", error);
+      throw error;
+  }
+}
 
 
 }

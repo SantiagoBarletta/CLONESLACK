@@ -111,3 +111,87 @@ export const getMessagesByChannelController = async (req, res) => {
       });
   }
 };
+
+export const createMessageController = async (req, res) => {
+  const { channelID } = req.params;
+  const { text } = req.body;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  try {
+      // Decodificar el token para obtener el ID del usuario
+      const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
+      const author_id = decodedToken.user_id;
+
+      if (!author_id) {
+          return res.status(401).json({
+              ok: false,
+              message: "Usuario no autorizado",
+          });
+      }
+
+      // Validar que se recibió texto
+      if (!text || text.trim() === "") {
+          return res.status(400).json({
+              ok: false,
+              message: "El mensaje no puede estar vacío",
+          });
+      }
+
+      // Crear el mensaje
+      const newMessage = await WorkspacesRepository.createMessage({
+          author_id,
+          channel_id: channelID,
+          text,
+      });
+
+      res.status(201).json({
+          ok: true,
+          message: "Mensaje enviado con éxito",
+          data: newMessage,
+      });
+  } catch (error) {
+      console.error("Error al crear mensaje:", error);
+      res.status(500).json({
+          ok: false,
+          message: "Error interno del servidor",
+      });
+  }
+};
+
+export const deleteMessageController = async (req, res) => {
+  const { messageID } = req.params;
+  const token = req.headers.authorization?.split(" ")[1];
+
+  try {
+      // Decodificar el token para obtener el ID del usuario
+      const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
+      const userID = decodedToken.user_id;
+
+      if (!userID) {
+          return res.status(401).json({ ok: false, message: "No autorizado" });
+      }
+
+      // Verificar si el usuario es el autor del mensaje
+      const message = await WorkspacesRepository.getMessageById(messageID);
+      if (!message) {
+          return res.status(404).json({ ok: false, message: "Mensaje no encontrado" });
+      }
+
+      if (message.author_id !== userID) {
+          return res.status(403).json({ ok: false, message: "No tienes permiso para eliminar este mensaje" });
+      }
+
+      // Eliminar el mensaje
+      const result = await WorkspacesRepository.deleteMessage(messageID);
+
+      if (!result) {
+          return res.status(500).json({ ok: false, message: "Error al eliminar el mensaje" });
+      }
+
+      res.status(200).json({ ok: true, message: "Mensaje eliminado con éxito" });
+  } catch (error) {
+      console.error("Error al eliminar mensaje:", error);
+      res.status(500).json({ ok: false, message: "Error interno del servidor" });
+  }
+};
+

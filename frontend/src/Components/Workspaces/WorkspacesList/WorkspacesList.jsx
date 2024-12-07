@@ -47,28 +47,35 @@ function WorkspacesList() {
     fetchWorkspaces();
   }, []);
 
+
+
+  
   return (
     <>
-      <div className="workspace-list">
-        <div className="title"><h4>Espacios de trabajo</h4></div>
-        {isLoading ? (
-          <p>Cargando...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : workspaces.length > 0 ? (
-          workspaces.map((workspace) => (
-            <Workspace key={workspace.id} workspace={workspace} />
-          ))
-        ) : (
-          <p>No hay espacios de trabajo disponibles.</p>
-        )}
-      </div>
-      <div className="workspaces-add">
-        <img src="Imagenes/jasonicon.png" alt="logo" />
-        <p>¿Quieres usar Slasher con otro equipo?</p>
-        <Link to="/workspaces/new"><button>Crear otro espacio de trabajo</button></Link>
-      </div>
-    </>
+  <div className="workspace-list">
+    <div className="workspace-list-header">
+      <h4>Espacios de trabajo</h4>
+      
+    </div>
+    {isLoading ? (
+      <p>Cargando...</p>
+    ) : error ? (
+      <p>{error}</p>
+    ) : workspaces.length > 0 ? (
+      workspaces.map((workspace) => (
+        <Workspace key={workspace.id} workspace={workspace} />
+      ))
+    ) : (
+      <p>No hay espacios de trabajo disponibles.</p>
+    )}
+  </div>
+  <div className="workspaces-add">
+    <img src="Imagenes/jasonicon.png" alt="logo" />
+    <p>¿Quieres usar Slasher con otro equipo?</p>
+    <Link to="/workspaces/new"><button>Crear otro espacio de trabajo</button></Link>
+  </div>
+</>
+
   );
 }
 

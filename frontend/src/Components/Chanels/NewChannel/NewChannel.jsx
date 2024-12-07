@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './NewChannel.css';
+import { useNavigate } from 'react-router-dom';
 
 const NewChannel = () => {
   const { workspaceID } = useParams();
   const [channelName, setChannelName] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +53,7 @@ const NewChannel = () => {
           {error && <p className='error'>{error}</p>}
           <div className='botones'>
             <button type="submit">Crear Canal</button>
-            <Link to={`/workspaces/${workspaceID}`}>Cancelar</Link>
+            <button type="button" onClick={() => navigate(-1)}>Cancelar</button>
           </div>
         </form>
       </div>

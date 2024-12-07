@@ -24,6 +24,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    
 }
 
 .channel .container {
@@ -58,6 +59,7 @@
     flex:1;
     flex-direction: column;
     gap: 5px;
+    align-items: flex-start;
 }
 
 .channel .messages .message .message-content .message-text {
@@ -123,6 +125,7 @@
     .channel .messages .message .message-content {
         gap: 5px;
         width: 100%;
+        
     }
 
     .channel .messages .message .message-content .message-text {
