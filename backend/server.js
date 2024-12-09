@@ -8,7 +8,7 @@ const app = express();
 
 // Configuración de CORS
 app.use(cors({
-  origin: "https://cloneslack-rho.vercel.app", 
+  origin: "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app", 
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, 
