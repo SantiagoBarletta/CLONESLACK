@@ -10,7 +10,7 @@ const app = express();
 
 // Configuración de CORS
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app", 
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, 
