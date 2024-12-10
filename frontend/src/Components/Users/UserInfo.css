@@ -78,6 +78,60 @@
     border-radius: 5px;
 }
 
+.edit-profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.edit-profile-button {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color:#6D4E72; /* Azul */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile-button .icon {
+    font-size: 18px;
+}
+
+.edit-profile-button:hover {
+    background-color: #B687BD; 
+}
+
+.edit-profile-button:active {
+    background-color: #1c6ea4; 
+}
+
+.edit-profile-button:focus {
+    outline: 2px solid #1c6ea4;
+    outline-offset: 2px;
+}
+
+.infoContainer .userInfo .birthdate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff
+}
+
+.infoContainer .userInfo .birthdate .icon {
+    font-size: 20px;
+    background-color: #6D4E72;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
 @media screen and (max-width: 768px) {
     .infoContainer {
         width: 100%;

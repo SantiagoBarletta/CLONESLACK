@@ -16,7 +16,7 @@ const RecoveryPassword = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          password: form_state.password, // Confirmar que la contraseña llega aquí
+          password: form_state.password, 
         }),
       }
     );

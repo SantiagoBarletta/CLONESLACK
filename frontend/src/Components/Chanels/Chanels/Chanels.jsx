@@ -5,12 +5,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
 import NuevoMensajeForm from "../MensajeForm/NuevoMensajeForm";
 import UserInfo from "../../Users/UserInfo";
+import EditProfile from "../../Users/EditProfile";
 
 const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
   const { workspaceID, channelID } = useParams();
   const [messages, setMessages] = useState([]);
   const [channelName, setChannelName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [showEditProfile, setShowEditProfile] = useState(false); // Estado para alternar entre UserInfo y EditProfile
 
   useEffect(() => {
     const fetchChannelData = async () => {
@@ -55,49 +57,38 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
     setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
-  const resaltarBusqueda = (message, busqueda) => {
-    if (!busqueda) return message;
-
-    const letras = message.split(new RegExp(`(${busqueda})`, "gi"));
-    return letras.map((letra, index) =>
-      letra.toLowerCase() === busqueda.toLowerCase() ? (
-        <span key={index} style={{ backgroundColor: "yellow", color: "black" }}>
-          {letra}
-        </span>
-      ) : (
-        letra
-      )
-    );
-  };
-
   const handleDeleteMessage = async (messageID) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_URL_API}/api/workspaces/messages/${messageID}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
-            },
-        });
-
-        if (!response.ok) {
-            let errorData;
-            try {
-                errorData = await response.json();
-            } catch {
-                errorData = { message: await response.text() };
-            }
-            if (response.status === 403) {
-                alert("No puedes eliminar mensajes de otros usuarios");
-            }
-            throw new Error(errorData.message || "Error al eliminar el mensaje");
+      const response = await fetch(
+        `${import.meta.env.VITE_URL_API}/api/workspaces/messages/${messageID}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
+          },
         }
+      );
 
-        setMessages((prevMessages) => prevMessages.filter((msg) => msg.id !== messageID));
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = { message: await response.text() };
+        }
+        if (response.status === 403) {
+          alert("No puedes eliminar mensajes de otros usuarios");
+        }
+        throw new Error(errorData.message || "Error al eliminar el mensaje");
+      }
+
+      setMessages((prevMessages) =>
+        prevMessages.filter((msg) => msg.id !== messageID)
+      );
     } catch (error) {
-        console.error("Error al eliminar el mensaje:", error);
+      console.error("Error al eliminar el mensaje:", error);
     }
-};
-
+  };
 
   return (
     <div className="channel">
@@ -108,7 +99,7 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
         </h2>
       </div>
       <main className="messages container">
-        {selectedUser && (
+        {selectedUser && !showEditProfile && (
           <UserInfo
             user={selectedUser}
             workspaceID={workspaceID}
@@ -116,6 +107,12 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
             className={viewInfo}
             viewInfo={viewInfo}
             setViewInfo={setViewInfo}
+            onEditProfile={() => setShowEditProfile(true)} // Pasar handler para editar perfil
+          />
+        )}
+        {selectedUser && showEditProfile && (
+          <EditProfile
+            onCloseEdit={() => setShowEditProfile(false)} // Handler para cerrar edición
           />
         )}
         <div className="messages">
@@ -137,7 +134,12 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
                     </span>
                   </p>
                   <p className="message-text">
-                    {resaltarBusqueda(message.text, search)}
+                    {search
+                      ? message.text.replace(
+                          new RegExp(search, "gi"),
+                          (match) => `<mark>${match}</mark>`
+                        )
+                      : message.text}
                   </p>
                 </div>
                 <button

@@ -20,7 +20,7 @@ export const registerController = async (req, res) => {
       });
     }
 
-    // Verificar si el username o email ya están registrados
+    // Verifica si el username o email ya están registrados
     const [existingUser] = await pool.query(
       "SELECT * FROM users WHERE username = ? OR email = ?",
       [username, email]
@@ -78,7 +78,7 @@ export const registerController = async (req, res) => {
 
 // Controlador para verificar email
 export const verifyEmailController = async (req, res) => {
-  // Extraer el token desde el parámetro correcto
+  
   const { validation_token: token } = req.params;
 
   if (!token) {
@@ -90,13 +90,12 @@ export const verifyEmailController = async (req, res) => {
   }
 
   try {
-    // Verificar el token
+    
     const payload = jwt.verify(token, ENVIROMENT.SECRET_KEY);
     console.log("Payload decodificado:", payload);
 
     const { email } = payload;
 
-    // Buscar el usuario en la base de datos
     const [user] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
     if (user.length === 0) {
       console.log("Usuario no encontrado para el email:", email);
@@ -106,10 +105,8 @@ export const verifyEmailController = async (req, res) => {
       `);
     }
 
-    // Actualizar el campo emailVerified
     await pool.query("UPDATE users SET emailVerified = 1 WHERE email = ?", [email]);
 
-    // Redirigir al login del frontend
     res.redirect(`${ENVIROMENT.FRONTEND_URL}/login`);
   } catch (error) {
     console.error("Error al verificar el token:", error.message);
@@ -119,8 +116,6 @@ export const verifyEmailController = async (req, res) => {
     `);
   }
 };
-
-
 
 // Controlador para iniciar sesión
 export const loginController = async (req, res) => {
@@ -193,7 +188,6 @@ export const loginController = async (req, res) => {
     });
   }
 };
-
 
 // Controlador para enviar correo de recuperación de contraseña
 export const forgotPasswordController = async (req, res) => {

@@ -12,6 +12,8 @@ import {
 
 import { NewChannel, Help, UserInfo } from "./Components";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import EditProfile from "./Components/Users/EditProfile";
+
 
 
 
@@ -31,6 +33,7 @@ const App = () => {
         <Route path="/workspaces/:workspaceID/user/:userID" element={<UserInfo />} />
         <Route path="/workspaces/:workspaceID/new-channel" element={<NewChannel />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Route>
     </Routes>
   );
