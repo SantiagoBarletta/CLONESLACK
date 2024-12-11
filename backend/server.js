@@ -3,7 +3,8 @@ import cors from "cors";
 import authRouter from "./routes/auth.route.js";
 import workspacesRouter from "./routes/workspaces.route.js";
 import usersRoutes from "./routes/users.routes.js";
-import path from 'path';
+import { customCorsMiddleware } from "./middleware/cors.middleware.js";
+
 
 
 const app = express();
@@ -17,7 +18,7 @@ const allowedOrigins = [
 
 // Configuración de CORS
 
-
+app.use(customCorsMiddleware);
 
 
 
