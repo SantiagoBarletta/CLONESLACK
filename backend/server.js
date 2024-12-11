@@ -8,13 +8,34 @@ import path from 'path';
 
 const app = express();
 
+
+const allowedOrigins = [
+  "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app",
+  "http://localhost:3000",
+];
+
+
 // Configuración de CORS
-app.use(cors({
-  origin: "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app", 
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, 
-}));
+
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', true);
+  next();
+})
+
+
+
+// app.use(cors({
+//   origin: "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app", 
+//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true, 
+// }));
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, 'dist')));
