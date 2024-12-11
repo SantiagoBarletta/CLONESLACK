@@ -6,8 +6,16 @@ import { FaTrash } from "react-icons/fa";
 import NuevoMensajeForm from "../MensajeForm/NuevoMensajeForm";
 import UserInfo from "../../Users/UserInfo";
 import EditProfile from "../../Users/EditProfile";
+import PrivateMessages from "../../Users/PrivateMessages"; // Asegúrate de importar correctamente
 
-const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
+const Chanels = ({
+  search,
+  selectedUser,
+  viewInfo,
+  setViewInfo,
+  showPrivateMessages,
+  setShowPrivateMessages, // Para manejar el estado de mensajes privados
+}) => {
   const { workspaceID, channelID } = useParams();
   const [messages, setMessages] = useState([]);
   const [channelName, setChannelName] = useState("");
@@ -99,7 +107,7 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
         </h2>
       </div>
       <main className="messages container">
-        {selectedUser && !showEditProfile && (
+        {selectedUser && !showEditProfile && !showPrivateMessages && (
           <UserInfo
             user={selectedUser}
             workspaceID={workspaceID}
@@ -107,12 +115,18 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
             className={viewInfo}
             viewInfo={viewInfo}
             setViewInfo={setViewInfo}
-            onEditProfile={() => setShowEditProfile(true)} 
+            onEditProfile={() => setShowEditProfile(true)}
+            onSendMessage={() => setShowPrivateMessages(true)} // Activar mensajes privados
           />
         )}
         {selectedUser && showEditProfile && (
-          <EditProfile
-            onCloseEdit={() => setShowEditProfile(false)} 
+          <EditProfile onCloseEdit={() => setShowEditProfile(false)} />
+        )}
+        {selectedUser && showPrivateMessages && (
+          <PrivateMessages
+            selectedUser={selectedUser}
+            workspaceID={workspaceID}
+            onClose={() => setShowPrivateMessages(false)} // Cerrar mensajes privados
           />
         )}
         <div className="messages">

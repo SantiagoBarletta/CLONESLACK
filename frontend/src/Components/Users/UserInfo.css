@@ -117,6 +117,39 @@
     outline-offset: 2px;
 }
 
+
+.send-message-button {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color:#6D4E72; /* Azul */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.send-message-button .icon {
+    font-size: 18px;
+}
+
+.send-message-button:hover {
+    background-color: #B687BD; 
+}
+
+.send-message-button:active {
+    background-color: #1c6ea4; 
+}
+
+.send-message-button:focus {
+    outline: 2px solid #1c6ea4;
+    outline-offset: 2px;
+}
+
 .infoContainer .userInfo .birthdate {
     display: flex;
     align-items: center;

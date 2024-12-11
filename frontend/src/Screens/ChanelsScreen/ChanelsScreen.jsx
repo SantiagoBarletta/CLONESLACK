@@ -3,13 +3,14 @@ import { ChanelsHeader, Chanels, ChanelsAside } from "../../Components";
 import "./ChanelsScreen.css";
 
 function ChanelsScreens() {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
-  const [viewInfo, setViewInfo] = useState('');
+  const [viewInfo, setViewInfo] = useState("");
   const [isAsideVisible, setIsAsideVisible] = useState(window.innerWidth > 768);
+  const [showPrivateMessages, setShowPrivateMessages] = useState(false);
 
   const toggleAside = () => {
-    setIsAsideVisible(prevState => !prevState);
+    setIsAsideVisible((prevState) => !prevState);
   };
 
   const closeAside = () => {
@@ -25,24 +26,35 @@ function ChanelsScreens() {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [isAsideVisible]);
 
   return (
     <div className="chanels-screens">
-      <ChanelsHeader search={search} setSearch={setSearch} toggleAside={toggleAside} />
+      <ChanelsHeader
+        search={search}
+        setSearch={setSearch}
+        toggleAside={toggleAside}
+      />
       <main className="chanels-main">
         {isAsideVisible && (
-          <ChanelsAside 
-            onSelectUser={setSelectedUser} 
-            viewInfo={viewInfo} 
-            setViewInfo={setViewInfo} 
+          <ChanelsAside
+            onSelectUser={setSelectedUser}
+            viewInfo={viewInfo}
+            setViewInfo={setViewInfo}
             onClose={closeAside}
           />
         )}
-        <Chanels search={search} selectedUser={selectedUser} viewInfo={viewInfo} setViewInfo={setViewInfo}/>
+        <Chanels
+          search={search}
+          selectedUser={selectedUser}
+          viewInfo={viewInfo}
+          setViewInfo={setViewInfo}
+          showPrivateMessages={showPrivateMessages}
+          setShowPrivateMessages={setShowPrivateMessages}
+        />
       </main>
     </div>
   );
