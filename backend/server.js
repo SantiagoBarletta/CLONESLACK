@@ -10,11 +10,6 @@ import { customCorsMiddleware } from "./middleware/cors.middleware.js";
 const app = express();
 
 
-const allowedOrigins = [
-  "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app",
-  "http://localhost:3000",
-];
-
 
 // Configuración de CORS
 
