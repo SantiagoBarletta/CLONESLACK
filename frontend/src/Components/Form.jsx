@@ -7,7 +7,7 @@ const Form = ({ children, action, form_fields, initial_state_form }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    action(formState); // Enviar el estado del formulario al método de acción
+    action(formState); 
   };
 
   return (
@@ -50,7 +50,7 @@ const Field = ({ field, handleChange, handleChangeImage, state_value }) => {
                 ? (e) => handleChangeImage(e, field.field_data_props.name)
                 : handleChange
             }
-            value={isFileInput ? undefined : state_value} // No se debe usar value para inputs de tipo file
+            value={isFileInput ? undefined : state_value} 
             {...field.field_data_props}
           />
         ) : (

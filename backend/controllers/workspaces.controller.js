@@ -5,12 +5,11 @@ import ResponseBuilder from "../helpers/builders/responseBuilders.js";
 import AppError from "../helpers/errors/app.error.js";
 import ChannelsRepository from "../repositories/channels.repository.js";
 
-// Crear un nuevo workspace
 export const createWorkspaceController = async (req, res, next) => {
   try {
     const { name, description, image, token } = req.body;
 
-    // Decodificar el token para obtener el administrador_id
+    // Obtener el administrador_id
     const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
     const administrador_id = decodedToken.user_id;
 
@@ -18,7 +17,6 @@ export const createWorkspaceController = async (req, res, next) => {
       throw new Error("No se pudo obtener el ID del usuario autenticado.");
     }
 
-    // Crear el workspace
     const newWorkspace = await WorkspacesRepository.createWorkspace({
       name,
       description,
@@ -65,7 +63,7 @@ export const getAllWorkspacesController = async (req, res, next) => {
 };
 
 
-// Obtener un workspace por su ID
+// Obtener un workspace por id
 export const getWorkspaceDetailsController = async (req, res) => {
   const { workspaceID } = req.params;
 
@@ -118,7 +116,6 @@ export const createMessageController = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   try {
-      // Decodificar el token para obtener el ID del usuario
       const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
       const author_id = decodedToken.user_id;
 
@@ -129,7 +126,7 @@ export const createMessageController = async (req, res) => {
           });
       }
 
-      // Validar que se recibió texto
+
       if (!text || text.trim() === "") {
           return res.status(400).json({
               ok: false,
@@ -137,7 +134,6 @@ export const createMessageController = async (req, res) => {
           });
       }
 
-      // Crear el mensaje
       const newMessage = await WorkspacesRepository.createMessage({
           author_id,
           channel_id: channelID,
@@ -163,7 +159,6 @@ export const deleteMessageController = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   try {
-      // Decodificar el token para obtener el ID del usuario
       const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
       const userID = decodedToken.user_id;
 
@@ -171,7 +166,6 @@ export const deleteMessageController = async (req, res) => {
           return res.status(401).json({ ok: false, message: "No autorizado" });
       }
 
-      // Verificar si el usuario es el autor del mensaje
       const message = await WorkspacesRepository.getMessageById(messageID);
       if (!message) {
           return res.status(404).json({ ok: false, message: "Mensaje no encontrado" });
@@ -181,7 +175,6 @@ export const deleteMessageController = async (req, res) => {
           return res.status(403).json({ ok: false, message: "No tienes permiso para eliminar este mensaje" });
       }
 
-      // Eliminar el mensaje
       const result = await WorkspacesRepository.deleteMessage(messageID);
 
       if (!result) {

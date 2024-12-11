@@ -12,7 +12,7 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
   const [messages, setMessages] = useState([]);
   const [channelName, setChannelName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [showEditProfile, setShowEditProfile] = useState(false); // Estado para alternar entre UserInfo y EditProfile
+  const [showEditProfile, setShowEditProfile] = useState(false); 
 
   useEffect(() => {
     const fetchChannelData = async () => {
@@ -107,12 +107,12 @@ const Chanels = ({ search, selectedUser, viewInfo, setViewInfo }) => {
             className={viewInfo}
             viewInfo={viewInfo}
             setViewInfo={setViewInfo}
-            onEditProfile={() => setShowEditProfile(true)} // Pasar handler para editar perfil
+            onEditProfile={() => setShowEditProfile(true)} 
           />
         )}
         {selectedUser && showEditProfile && (
           <EditProfile
-            onCloseEdit={() => setShowEditProfile(false)} // Handler para cerrar edición
+            onCloseEdit={() => setShowEditProfile(false)} 
           />
         )}
         <div className="messages">

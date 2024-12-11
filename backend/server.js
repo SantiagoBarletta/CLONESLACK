@@ -6,16 +6,11 @@ import usersRoutes from "./routes/users.routes.js";
 import { customCorsMiddleware } from "./middleware/cors.middleware.js";
 
 
-
 const app = express();
-
-
 
 // Configuración de CORS
 
 app.use(customCorsMiddleware);
-
-
 
 // app.use(cors({
 //   origin: "https://cloneslack-git-main-santiago-barlettas-projects.vercel.app", 

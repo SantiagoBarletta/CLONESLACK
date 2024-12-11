@@ -1,4 +1,3 @@
-// src/Screens/index.js
 import WorkspacesHeader from "./Workspaces/WorkspacesHeader/WorkspacesHeader";
 import WorkspacesFooter from "./Workspaces/WorkspacesFooter/WorkspacesFooter";
 import Workspace from "./Workspaces/Workspace/Workspace";

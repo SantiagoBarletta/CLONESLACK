@@ -6,7 +6,7 @@ import "./Users.css";
 
 const Login = () => {
   const { formState, handleChange } = useForm({
-    login: "", // Campo para username o email
+    login: "", 
     password: "",
   });
   const { login } = useContext(AuthContext); 

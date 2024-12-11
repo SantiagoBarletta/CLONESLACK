@@ -18,10 +18,9 @@ const addMemberMiddleware = async (req, res, next) => {
             return res.status(400).json({ ok: false, message: "Token inválido" });
         }
 
-        // Registrar al usuario como miembro si no lo es
         await WorkspacesRepository.addMemberToWorkspace(workspaceID, userId);
 
-        next(); // Continuar con el siguiente middleware o controlador
+        next(); 
     } catch (error) {
         console.error("Error en addMemberMiddleware:", error);
         res.status(500).json({ ok: false, message: "Error interno del servidor" });

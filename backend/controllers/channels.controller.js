@@ -1,4 +1,3 @@
-// controllers/channels.controller.js
 import WorkspacesRepository from "../repositories/workspaces.repository.js";
 
 export const createChannelController = async (req, res) => {

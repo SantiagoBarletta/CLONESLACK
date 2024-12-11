@@ -38,7 +38,6 @@ const Register = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // Manejar errores específicos
         console.error("Error en la API:", data);
         setErrorState({
           firstname: "",
@@ -51,7 +50,6 @@ const Register = () => {
         return;
       }
 
-      // Registro exitoso
       setErrorState({
         firstname: "",
         lastname: "",

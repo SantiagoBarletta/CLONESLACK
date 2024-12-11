@@ -11,7 +11,6 @@ export const registerController = async (req, res) => {
   try {
     const { firstname, lastname, username, email, password } = req.body;
 
-    // Validaciones básicas
     if (!firstname || !lastname || !username || !email || !password) {
       return res.status(400).json({
         ok: false,
@@ -20,7 +19,7 @@ export const registerController = async (req, res) => {
       });
     }
 
-    // Verifica si el username o email ya están registrados
+    // Verifica si el username o email ya estan registrados
     const [existingUser] = await pool.query(
       "SELECT * FROM users WHERE username = ? OR email = ?",
       [username, email]
@@ -33,23 +32,18 @@ export const registerController = async (req, res) => {
       });
     }
 
-    // Hashear la contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generar un token de verificación
     const verificationToken = jwt.sign({ email }, ENVIROMENT.SECRET_KEY, { expiresIn: "1d" });
 
-    // Ruta de la imagen de perfil por defecto
     const defaultProfileImage = "/Imagenes/user.png";
 
-    // Insertar nuevo usuario
     await pool.query(
       `INSERT INTO users (firstname, lastname, username, email, password, emailVerified, verificationToken, foto_perfil) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [firstname, lastname, username, email, hashedPassword, 0, verificationToken, defaultProfileImage]
     );
 
-    // Enviar correo de verificación
     const verificationLink = `${ENVIROMENT.BACKEND_URL}/api/auth/verify-email/${verificationToken}`;
     await transporterEmail.sendMail({
       from: ENVIROMENT.EMAIL_USER,
@@ -189,7 +183,7 @@ export const loginController = async (req, res) => {
   }
 };
 
-// Controlador para enviar correo de recuperación de contraseña
+// Controlador para enviar correo de recuperacion de contraseña
 export const forgotPasswordController = async (req, res) => {
   const { email } = req.body;
 
