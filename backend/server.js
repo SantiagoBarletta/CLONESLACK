@@ -37,8 +37,8 @@ app.use((req, res, next) => {
 //   credentials: true, 
 // }));
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, 'dist')));
+// const __dirname = path.resolve();
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 app.options("*", cors()); 
 
@@ -48,9 +48,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/workspaces", workspacesRouter);
 app.use("/api/users", usersRoutes);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// });
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
