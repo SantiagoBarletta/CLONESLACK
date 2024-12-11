@@ -4,6 +4,7 @@ import authRouter from "./routes/auth.route.js";
 import workspacesRouter from "./routes/workspaces.route.js";
 import usersRoutes from "./routes/users.routes.js";
 import { customCorsMiddleware } from "./middleware/cors.middleware.js";
+import privateMessagesRouter from "./routes/privateMessages.routes.js";
 
 
 const app = express();
@@ -29,6 +30,8 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/workspaces", workspacesRouter);
 app.use("/api/users", usersRoutes);
+app.use("/private-messages", privateMessagesRouter);
+
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'dist', 'index.html'));

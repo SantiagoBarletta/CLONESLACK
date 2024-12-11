@@ -4,7 +4,7 @@ import { FaBirthdayCake } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./UserInfo.css";
 
-const UserInfo = ({ user, viewInfo, setViewInfo, onEditProfile }) => {
+const UserInfo = ({ user, viewInfo, setViewInfo, onEditProfile, onSendMessage }) => {
     const [userData, setUserData] = useState(user || null);
     const [isLoading, setIsLoading] = useState(!user || !user.firstname);
     const [isOwnProfile, setIsOwnProfile] = useState(false);
@@ -94,30 +94,42 @@ const UserInfo = ({ user, viewInfo, setViewInfo, onEditProfile }) => {
             </div>
 
             <div className="userInfo">
-    <h3>Información de contacto</h3>
-    <div className="contact">
-        <MdOutlineMail className="icon" />
-        <div className="correo">
-            <p>
-                <strong>Dirección de Correo</strong>
-            </p>
-            <p>{userData.email || "Correo no disponible"}</p>
-        </div>
-    </div>
-    <div className="birthdate">
-        <FaBirthdayCake className="icon" />
-        <div className="birthdate-info">
-            <p>
-                <strong>Fecha de nacimiento</strong>
-            </p>
-            <p>
-                {userData.fecha_nacimiento
-                    ? formatBirthdate(userData.fecha_nacimiento)
-                    : "No especificada"}
-            </p>
-        </div>
-    </div>
-</div>
+                <h3>Información de contacto</h3>
+                <div className="contact">
+                    <MdOutlineMail className="icon" />
+                    <div className="correo">
+                        <p>
+                            <strong>Dirección de Correo</strong>
+                        </p>
+                        <p>{userData.email || "Correo no disponible"}</p>
+                    </div>
+                </div>
+                <div className="birthdate">
+                    <FaBirthdayCake className="icon" />
+                    <div className="birthdate-info">
+                        <p>
+                            <strong>Fecha de nacimiento</strong>
+                        </p>
+                        <p>
+                            {userData.fecha_nacimiento
+                                ? formatBirthdate(userData.fecha_nacimiento)
+                                : "No especificada"}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {!isOwnProfile && (
+                <div className="send-message">
+                    <button
+                        className="send-message-button"
+                        onClick={onSendMessage}
+                    >
+                        Enviar Mensaje
+                    </button>
+                </div>
+            )}
+
 
 
             {isOwnProfile && (

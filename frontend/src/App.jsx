@@ -17,6 +17,8 @@ import EditProfile from "./Components/Users/EditProfile";
 
 
 
+
+
 const App = () => {
   return (
     <Routes>
@@ -34,6 +36,8 @@ const App = () => {
         <Route path="/workspaces/:workspaceID/new-channel" element={<NewChannel />} />
         <Route path="/help" element={<Help />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        
+
       </Route>
     </Routes>
   );
