@@ -19,7 +19,7 @@ const obtenerWorkspaces = async () => {
     }
 
     const data = await response.json();
-    return data.workspaces; // Ajustar al formato esperado
+    return data.workspaces; 
   } catch (error) {
     console.error("Error en obtenerWorkspaces:", error);
     throw error;

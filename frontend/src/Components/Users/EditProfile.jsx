@@ -6,12 +6,11 @@ const EditProfile = ({ onCloseEdit }) => {
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
-    const [profileImage, setProfileImage] = useState(''); // Base64
+    const [profileImage, setProfileImage] = useState(''); 
     const [birthdate, setBirthdate] = useState('');
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Cargar los datos actuales del usuario logueado
         const fetchUserData = async () => {
             try {
                 const token = sessionStorage.getItem("access-token");
@@ -27,7 +26,7 @@ const EditProfile = ({ onCloseEdit }) => {
                 setFirstname(data.firstname);
                 setLastname(data.lastname);
                 setEmail(data.email);
-                setProfileImage(data.profile_image); // Recibe Base64
+                setProfileImage(data.profile_image); 
                 const formattedDate = data.fecha_nacimiento
                     ? new Date(data.fecha_nacimiento).toISOString().split('T')[0]
                     : '';
@@ -46,7 +45,7 @@ const EditProfile = ({ onCloseEdit }) => {
 
         const reader = new FileReader();
         reader.onload = () => {
-            setProfileImage(reader.result); // Base64
+            setProfileImage(reader.result); 
         };
         reader.readAsDataURL(file);
     };
@@ -75,7 +74,7 @@ const EditProfile = ({ onCloseEdit }) => {
             if (!response.ok) throw new Error("Error al actualizar los datos del usuario");
 
             alert("Perfil actualizado con éxito");
-            onCloseEdit(); // Cerrar el editor después de actualizar exitosamente
+            onCloseEdit(); 
         } catch (error) {
             setError(error.message);
         }
@@ -106,7 +105,7 @@ const EditProfile = ({ onCloseEdit }) => {
                     <button type="submit">Guardar Cambios</button>
                     <button
                         type="button"
-                        onClick={onCloseEdit} // Usa la misma lógica que el botón de cerrar
+                        onClick={onCloseEdit} 
                         className="cancel-button"
                     >
                         Cancelar

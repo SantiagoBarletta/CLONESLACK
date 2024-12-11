@@ -4,10 +4,10 @@ const WorkspacesModel = {
   getAll: async () => {
     try {
       const [rows] = await pool.query("SELECT * FROM workspaces WHERE activo = 1");
-      return rows; // Devuelve los resultados correctamente
+      return rows; 
     } catch (error) {
       console.error("Error al obtener los workspaces:", error);
-      throw error; // Propaga el error para que el controlador lo maneje
+      throw error; 
     }
   },
 

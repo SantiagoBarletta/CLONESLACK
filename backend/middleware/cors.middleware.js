@@ -2,13 +2,12 @@ import ENVIROMENT from "../config/enviroment.js";
 
 const allowed_origins = [
     "http://localhost:5173",
-    ENVIROMENT.FRONTEND_URL // Asegúrate de que esto está definido
+    ENVIROMENT.FRONTEND_URL 
 ];
 
 export const customCorsMiddleware = (req, res, next) => {
     const origin = req.headers.origin;
 
-    // Validar el origen y configurarlo solo si está permitido
     if (origin && allowed_origins.includes(origin)) {
         res.setHeader("Access-Control-Allow-Origin", origin);
     }

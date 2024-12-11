@@ -1,4 +1,3 @@
-// src/Chanels/Help/Help.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Help.css';

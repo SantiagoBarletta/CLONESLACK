@@ -1,4 +1,3 @@
-// src/Screens/index.js
 import WorkspacesHeader from "./Workspaces/WorkspacesHeader/WorkspacesHeader";
 import WorkspacesFooter from "./Workspaces/WorkspacesFooter/WorkspacesFooter";
 import Workspace from "./Workspaces/Workspace/Workspace";
@@ -19,6 +18,8 @@ import UsersHeader from "./Users/UsersHeader/UsersHeader";
 import Login from "./Users/Login";
 import RecoveryPassword from "./Users/RecoveryPassword";
 import Register from "./Users/Register";
+import PrivateMessages from "./Users/PrivateMessages";
+
 
 
 export {  
@@ -41,5 +42,6 @@ export {
     UsersHeader,
     Login,
     RecoveryPassword,
-    Register
+    Register,
+    PrivateMessages
 };

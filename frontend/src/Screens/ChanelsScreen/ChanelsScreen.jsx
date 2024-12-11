@@ -7,6 +7,7 @@ function ChanelsScreens() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [viewInfo, setViewInfo] = useState('');
   const [isAsideVisible, setIsAsideVisible] = useState(window.innerWidth > 768);
+  const [showPrivateMessages, setShowPrivateMessages] = useState(false); // Estado para mensajes privados
 
   const toggleAside = () => {
     setIsAsideVisible(prevState => !prevState);
@@ -14,6 +15,14 @@ function ChanelsScreens() {
 
   const closeAside = () => {
     setIsAsideVisible(false);
+  };
+
+  const handleSendMessage = () => {
+    setShowPrivateMessages(true); // Cambiar a vista de mensajes privados
+  };
+
+  const handleClosePrivateMessages = () => {
+    setShowPrivateMessages(false); // Volver a vista normal
   };
 
   useEffect(() => {
@@ -42,7 +51,17 @@ function ChanelsScreens() {
             onClose={closeAside}
           />
         )}
-        <Chanels search={search} selectedUser={selectedUser} viewInfo={viewInfo} setViewInfo={setViewInfo}/>
+<Chanels
+  search={search}
+  selectedUser={selectedUser}
+  viewInfo={viewInfo}
+  setViewInfo={setViewInfo}
+  showPrivateMessages={showPrivateMessages} // Pasar como prop
+  onSendMessage={handleSendMessage} // Pasar la función para activar mensajes privados
+  onClosePrivateMessages={handleClosePrivateMessages} // Pasar la función para cerrar mensajes privados
+/>
+
+
       </main>
     </div>
   );
