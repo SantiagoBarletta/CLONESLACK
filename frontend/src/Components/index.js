@@ -18,8 +18,6 @@ import UsersHeader from "./Users/UsersHeader/UsersHeader";
 import Login from "./Users/Login";
 import RecoveryPassword from "./Users/RecoveryPassword";
 import Register from "./Users/Register";
-import PrivateMessages from "./Users/PrivateMessages";
-
 
 
 export {  
@@ -42,6 +40,5 @@ export {
     UsersHeader,
     Login,
     RecoveryPassword,
-    Register,
-    PrivateMessages
+    Register
 };
