@@ -2,14 +2,10 @@ import jwt from "jsonwebtoken";
 import ENVIROMENT from "../config/enviroment.js";
 import WorkspacesRepository from "../repositories/workspaces.repository.js";
 import ResponseBuilder from "../helpers/builders/responseBuilders.js";
-import AppError from "../helpers/errors/app.error.js";
-import ChannelsRepository from "../repositories/channels.repository.js";
 
 export const createWorkspaceController = async (req, res, next) => {
   try {
     const { name, description, image, token } = req.body;
-
-    // Obtener el administrador_id
     const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
     const administrador_id = decodedToken.user_id;
 
@@ -38,9 +34,6 @@ export const createWorkspaceController = async (req, res, next) => {
   }
 };
 
-
-
-// Obtener todos los workspaces activos
 export const getAllWorkspacesController = async (req, res, next) => {
   try {
     const workspaces = await WorkspacesRepository.getAllWorkspaces();
@@ -62,8 +55,6 @@ export const getAllWorkspacesController = async (req, res, next) => {
   }
 };
 
-
-// Obtener un workspace por id
 export const getWorkspaceDetailsController = async (req, res) => {
   const { workspaceID } = req.params;
 

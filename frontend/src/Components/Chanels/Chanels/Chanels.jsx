@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import NuevoMensajeForm from "../MensajeForm/NuevoMensajeForm";
 import UserInfo from "../../Users/UserInfo";
 import EditProfile from "../../Users/EditProfile";
-import PrivateMessages from "../../Users/PrivateMessages"; // Asegúrate de importar correctamente
+import PrivateMessages from "../../Users/PrivateMessages";
 
 const Chanels = ({
   search,
@@ -14,7 +14,7 @@ const Chanels = ({
   viewInfo,
   setViewInfo,
   showPrivateMessages,
-  setShowPrivateMessages, // Para manejar el estado de mensajes privados
+  setShowPrivateMessages, 
 }) => {
   const { workspaceID, channelID } = useParams();
   const [messages, setMessages] = useState([]);
@@ -116,7 +116,7 @@ const Chanels = ({
             viewInfo={viewInfo}
             setViewInfo={setViewInfo}
             onEditProfile={() => setShowEditProfile(true)}
-            onSendMessage={() => setShowPrivateMessages(true)} // Activar mensajes privados
+            onSendMessage={() => setShowPrivateMessages(true)} 
           />
         )}
         {selectedUser && showEditProfile && (
@@ -126,7 +126,7 @@ const Chanels = ({
           <PrivateMessages
             selectedUser={selectedUser}
             workspaceID={workspaceID}
-            onClose={() => setShowPrivateMessages(false)} // Cerrar mensajes privados
+            onClose={() => setShowPrivateMessages(false)} 
           />
         )}
         <div className="messages">

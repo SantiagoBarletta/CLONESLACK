@@ -1,8 +1,8 @@
 import pool from "../config/dbconfig.js";
 
-// Obtener mensajes privados entre dos usuarios
+
 import jwt from "jsonwebtoken";
-import ENVIROMENT from "../config/enviroment.js";
+//import ENVIROMENT from "../config/enviroment.js";
 
 export const getPrivateMessages = async (req, res) => {
     const { userID } = req.params;
@@ -29,7 +29,7 @@ export const getPrivateMessages = async (req, res) => {
         );
         
 
-        console.log("Mensajes obtenidos:", messages); // Confirmamos que ahora sea un array plano
+        console.log("Mensajes obtenidos:", messages); 
         res.status(200).json({ success: true, messages });
     } catch (error) {
         console.error("Error al obtener mensajes privados:", error);
@@ -38,10 +38,6 @@ export const getPrivateMessages = async (req, res) => {
 };
 
 
-
-
-
-// Enviar un mensaje privado
 export const sendPrivateMessage = async (req, res) => {
     const token = req.headers.authorization?.split(" ")[1];
     const { receiver_id, text } = req.body;
@@ -60,7 +56,6 @@ export const sendPrivateMessage = async (req, res) => {
             [sender_id, receiver_id, text]
         );
 
-        // Obtener el mensaje recién insertado con todas sus propiedades
         const [newMessage] = await pool.query(
             `SELECT id, sender_id, receiver_id, text, 
                     DATE_FORMAT(date, '%Y-%m-%dT%H:%i:%sZ') AS date

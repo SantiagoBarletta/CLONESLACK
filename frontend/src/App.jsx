@@ -25,7 +25,7 @@ const App = () => {
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/forgot-password" element={<ForgotPasswordScreen />} />
       <Route path="/recovery-password/:reset_token" element={<RecoveryPasswordScreen />} />
-      {/* Rutas protegidas */}
+      
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<WorkspacesScreen />} />
         <Route path="/workspaces/:workspaceID/:channelID" element={<ChanelsScreen />} />

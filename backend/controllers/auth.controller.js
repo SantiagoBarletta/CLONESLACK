@@ -188,7 +188,7 @@ export const forgotPasswordController = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const user = await UsersModel.findByEmailOrUsername(email); // Cambiado aquí
+    const user = await UsersModel.findByEmailOrUsername(email); 
     if (user.length === 0) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }

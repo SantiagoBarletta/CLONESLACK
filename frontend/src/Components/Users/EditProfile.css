@@ -93,21 +93,21 @@
 }
 
 .form-buttons .cancel-button {
-    background-color: #e74c3c; /* Rojo */
+    background-color: #e74c3c; 
     color: white;
 }
 
 .form-buttons .cancel-button:hover {
-    background-color: #c0392b; /* Rojo más oscuro */
+    background-color: #c0392b; 
 }
 
 .form-buttons button[type="submit"] {
-    background-color: #3498db; /* Azul */
+    background-color: #3498db; 
     color: white;
 }
 
 .form-buttons button[type="submit"]:hover {
-    background-color: #2980b9; /* Azul más oscuro */
+    background-color: #2980b9; 
 }
 
 

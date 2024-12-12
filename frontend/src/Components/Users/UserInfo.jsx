@@ -59,7 +59,6 @@ const UserInfo = ({ user, viewInfo, setViewInfo, onEditProfile, onSendMessage })
         return <div className="error">Error al cargar los datos del usuario.</div>;
     }
 
-    // Dar fotmato a la fecha de nacimiento
     const formatBirthdate = (dateString) => {
         const date = new Date(dateString);
         return date.toLocaleDateString("es-ES", {

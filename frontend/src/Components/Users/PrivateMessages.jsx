@@ -69,7 +69,6 @@ const PrivateMessages = ({ selectedUser, workspaceID, onClose }) => {
 
         const { message } = await response.json();
 
-        // Agrega el mensaje al estado
         setMessages((prevMessages) => [...prevMessages, message]);
         setNewMessage("");
     } catch (error) {
@@ -93,7 +92,7 @@ const PrivateMessages = ({ selectedUser, workspaceID, onClose }) => {
 
         return (
             <div key={msg.id} className="pm-message">
-                {isDifferentSender && ( // Mostrar encabezado solo si cambia el emisor
+                {isDifferentSender && ( 
                     <div className="pm-message-header">
                         <img
                             className="sender-image"
