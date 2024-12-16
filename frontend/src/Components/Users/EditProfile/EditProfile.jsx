@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { MdClose } from "react-icons/md";
 import "./EditProfile.css";
 
 const EditProfile = ({ onCloseEdit }) => {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
-  const [profileImage, setProfileImage] = useState("");
-  const [birthdate, setBirthdate] = useState("");
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    profileImage: "",
+    birthdate: "",
+  });
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -23,18 +24,18 @@ const EditProfile = ({ onCloseEdit }) => {
           }
         );
 
-        if (!response.ok)
-          throw new Error("Error al cargar los datos del usuario");
+        if (!response.ok) throw new Error("Error al cargar los datos del usuario");
 
         const { data } = await response.json();
-        setFirstname(data.firstname);
-        setLastname(data.lastname);
-        setEmail(data.email);
-        setProfileImage(data.profile_image);
-        const formattedDate = data.fecha_nacimiento
-          ? new Date(data.fecha_nacimiento).toISOString().split("T")[0]
-          : "";
-        setBirthdate(formattedDate);
+        setFormData({
+          firstname: data.firstname,
+          lastname: data.lastname,
+          email: data.email,
+          profileImage: data.profile_image || "",
+          birthdate: data.fecha_nacimiento
+            ? new Date(data.fecha_nacimiento).toISOString().split("T")[0]
+            : "",
+        });
       } catch (error) {
         setError(error.message);
       }
@@ -43,29 +44,32 @@ const EditProfile = ({ onCloseEdit }) => {
     fetchUserData();
   }, []);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const maxSize = 1 * 1024 * 1024;
+    const maxSize = 1 * 1024 * 1024; // 1MB en bytes
     if (file.size > maxSize) {
-        setError(
-            "El archivo seleccionado es demasiado grande. El tamaño máximo permitido es 1MB."
-        );
-        return;
+      setError("El archivo seleccionado es demasiado grande. El tamaño máximo permitido es 1MB.");
+      return;
     }
 
     const reader = new FileReader();
     reader.onload = () => {
-        setProfileImage(reader.result); 
-        setError(null); 
+      setFormData((prev) => ({ ...prev, profileImage: reader.result }));
+      setError(null);
     };
     reader.readAsDataURL(file);
-};
-
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const token = sessionStorage.getItem("access-token");
       const userID = JSON.parse(atob(token.split(".")[1])).user_id;
@@ -78,18 +82,11 @@ const EditProfile = ({ onCloseEdit }) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            firstname,
-            lastname,
-            email,
-            profile_image: profileImage || null,
-            fecha_nacimiento: birthdate,
-          }),
+          body: JSON.stringify(formData),
         }
       );
 
-      if (!response.ok)
-        throw new Error("Error al actualizar los datos del usuario");
+      if (!response.ok) throw new Error("Error al actualizar los datos del usuario");
 
       alert("Perfil actualizado con éxito");
       onCloseEdit();
@@ -104,25 +101,43 @@ const EditProfile = ({ onCloseEdit }) => {
       <form onSubmit={handleSubmit} className="edit-profile-form">
         <label>Nombre:</label>
         <input
-          value={firstname}
-          onChange={(e) => setFirstname(e.target.value)}
+          name="firstname"
+          value={formData.firstname}
+          onChange={handleInputChange}
+          required
         />
 
         <label>Apellido:</label>
-        <input value={lastname} onChange={(e) => setLastname(e.target.value)} />
+        <input
+          name="lastname"
+          value={formData.lastname}
+          onChange={handleInputChange}
+          required
+        />
+
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+        />
 
         <label>Fecha de Nacimiento:</label>
         <input
           type="date"
-          value={birthdate}
-          onChange={(e) => setBirthdate(e.target.value)}
+          name="birthdate"
+          value={formData.birthdate}
+          onChange={handleInputChange}
         />
 
         <label>Imagen de Perfil:</label>
         <input type="file" accept="image/*" onChange={handleImageUpload} />
-        {profileImage && (
-          <img src={profileImage} alt="Preview" className="image-preview" />
+        {formData.profileImage && (
+          <img src={formData.profileImage} alt="Preview" className="image-preview" />
         )}
+
         {error && <p className="error">{error}</p>}
 
         <div className="form-buttons">
