@@ -42,13 +42,21 @@ const EditProfile = ({ onCloseEdit }) => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
+    
+        const maxSize = 2 * 1024 * 1024; // 2MB en bytes
+        if (file.size > maxSize) {
+            setError("El archivo seleccionado es demasiado grande. El tamaño máximo permitido es 2MB.");
+            return;
+        }
+    
         const reader = new FileReader();
         reader.onload = () => {
             setProfileImage(reader.result); 
+            setError(null); // Limpiar el error si la carga es exitosa
         };
         reader.readAsDataURL(file);
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
