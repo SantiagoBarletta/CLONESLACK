@@ -9,7 +9,7 @@ import privateMessagesRouter from "./routes/privateMessages.routes.js";
 
 const app = express();
 
-app.use(customCorsMiddleware);
+
 
 app.use(cors()); 
 

@@ -50,9 +50,10 @@ const ForgotPassword = () => {
 
   return (
     <div className="auth-screen-container">
-      <h1>Restablecer contraseña</h1>
+      <div className="recovery-header"><h1>Restablecer contraseña</h1></div>
+      
       <p>Ingresa tu correo para restablecer tu contraseña</p>
-      <Form form_fields={form_fields} action={submitForgotPassword} inital_state_form={inital_state_form}>
+      <Form form_fields={form_fields} action={submitForgotPassword} inital_state_form={inital_state_form} className={"recovery_form"}>
         <button type="submit">Enviar enlace</button>
         <Link to="/login">Volver a iniciar sesión</Link>
       </Form>
