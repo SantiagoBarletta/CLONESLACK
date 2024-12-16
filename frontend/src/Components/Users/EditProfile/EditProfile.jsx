@@ -47,33 +47,25 @@ const EditProfile = ({ onCloseEdit }) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    const maxSize = 1 * 1024 * 1024; // 1MB en bytes
+    const maxSize = 1 * 1024 * 1024;
     if (file.size > maxSize) {
-      setError(
-        "El archivo seleccionado es demasiado grande. El tamaño máximo permitido es 1MB."
-      );
-      return;
+        setError(
+            "El archivo seleccionado es demasiado grande. El tamaño máximo permitido es 1MB."
+        );
+        return;
     }
 
     const reader = new FileReader();
     reader.onload = () => {
-      setProfileImage(reader.result); // Convertir la imagen a Base64
-      setError(null); // Limpiar el error si la carga es exitosa
+        setProfileImage(reader.result); 
+        setError(null); 
     };
     reader.readAsDataURL(file);
-  };
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const maxSize = 1 * 1024 * 1024; // Validación adicional antes del envío
-    if (profileImage && profileImage.length > maxSize) {
-      setError(
-        "El archivo seleccionado es demasiado grande. El tamaño máximo permitido es 1MB."
-      );
-      return;
-    }
-
     try {
       const token = sessionStorage.getItem("access-token");
       const userID = JSON.parse(atob(token.split(".")[1])).user_id;
@@ -114,23 +106,10 @@ const EditProfile = ({ onCloseEdit }) => {
         <input
           value={firstname}
           onChange={(e) => setFirstname(e.target.value)}
-          required
         />
 
         <label>Apellido:</label>
-        <input
-          value={lastname}
-          onChange={(e) => setLastname(e.target.value)}
-          required
-        />
-
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <input value={lastname} onChange={(e) => setLastname(e.target.value)} />
 
         <label>Fecha de Nacimiento:</label>
         <input
@@ -144,16 +123,11 @@ const EditProfile = ({ onCloseEdit }) => {
         {profileImage && (
           <img src={profileImage} alt="Preview" className="image-preview" />
         )}
-
         {error && <p className="error">{error}</p>}
 
         <div className="form-buttons">
           <button type="submit">Guardar Cambios</button>
-          <button
-            type="button"
-            onClick={onCloseEdit}
-            className="cancel-button"
-          >
+          <button type="button" onClick={onCloseEdit} className="cancel-button">
             Cancelar
           </button>
         </div>
