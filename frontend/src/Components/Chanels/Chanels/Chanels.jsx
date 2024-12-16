@@ -4,9 +4,9 @@ import "./Chanels.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
 import NuevoMensajeForm from "../MensajeForm/NuevoMensajeForm";
-import UserInfo from "../../Users/UserInfo";
-import EditProfile from "../../Users/EditProfile";
-import PrivateMessages from "../../Users/PrivateMessages";
+import UserInfo from "../../Users/UserInfo/UserInfo";
+import PrivateMessages from "../../Users/PrivateMessages/PrivateMessages";
+import EditProfile from "../../Users/EditProfile/EditProfile";
 
 const Chanels = ({
   search,
