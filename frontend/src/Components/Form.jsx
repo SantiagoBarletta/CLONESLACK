@@ -1,7 +1,7 @@
 import React from "react";
 import useForm from "../Hooks/useForm";
 
-const Form = ({ children, action, form_fields, initial_state_form }) => {
+const Form = ({ children, action, form_fields, initial_state_form, className }) => {
   const { formState, handleChange, handleChangeImage } =
     useForm(initial_state_form);
 
@@ -11,7 +11,7 @@ const Form = ({ children, action, form_fields, initial_state_form }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={className}>
       <FieldList
         form_fields={form_fields}
         handleChange={handleChange}

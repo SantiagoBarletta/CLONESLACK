@@ -4,9 +4,9 @@ import "./Chanels.css";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaTrash } from "react-icons/fa";
 import NuevoMensajeForm from "../MensajeForm/NuevoMensajeForm";
-import UserInfo from "../../Users/UserInfo";
-import EditProfile from "../../Users/EditProfile";
-import PrivateMessages from "../../Users/PrivateMessages";
+import UserInfo from "../../Users/UserInfo/UserInfo";
+import PrivateMessages from "../../Users/PrivateMessages/PrivateMessages";
+import EditProfile from "../../Users/EditProfile/EditProfile";
 
 const Chanels = ({
   search,
@@ -98,6 +98,23 @@ const Chanels = ({
     }
   };
 
+  const resaltarBusqueda = (message, busqueda) => {
+    if (!busqueda) return message;
+  
+    const letras = message.split(new RegExp(`(${busqueda})`, "gi"));
+    return letras.map((letra, index) =>
+      letra.toLowerCase() === busqueda.toLowerCase() ? (
+        <span
+          key={index}
+          style={{ backgroundColor: "yellow", color: "black" }}
+        >
+          {letra}
+        </span>
+      ) : (
+        letra
+      )
+    );
+  };
   return (
     <div className="channel">
       <div className="messages-header">
@@ -148,13 +165,8 @@ const Chanels = ({
                     </span>
                   </p>
                   <p className="message-text">
-                    {search
-                      ? message.text.replace(
-                          new RegExp(search, "gi"),
-                          (match) => `<mark>${match}</mark>`
-                        )
-                      : message.text}
-                  </p>
+                  {resaltarBusqueda(message.text, search)}
+                </p>
                 </div>
                 <button
                   className="delete-button"
