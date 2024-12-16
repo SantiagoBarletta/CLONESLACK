@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import useForm from "@hooks/useForm";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -10,11 +10,9 @@ const Login = () => {
     password: "",
   });
   const { login } = useContext(AuthContext); 
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setErrorMessage("");
     try {
       const response = await fetch(
         import.meta.env.VITE_URL_API + "/api/auth/login",
@@ -31,13 +29,13 @@ const Login = () => {
 
       if (!data.ok) {
         if (data.code === "USER_NOT_FOUND") {
-          setErrorMessage("Usuario no encontrado");
+          alert("Usuario no encontrado");
         } else if (data.code === "INCORRECT_PASSWORD") {
-          setErrorMessage("Contraseña incorrecta");
+          alert("Contraseña incorrecta");
         } else if (data.code === "EMAIL_NOT_VERIFIED") {
-          setErrorMessage("Verifica tu cuenta antes de iniciar sesión");
+          alert("Verifica tu cuenta antes de iniciar sesión");
         } else {
-          setErrorMessage("Error inesperado. Inténtalo más tarde.");
+          alert("Error inesperado. Inténtalo más tarde.");
         }
       } else {
         login(data.data.accessToken);
@@ -45,7 +43,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error en el proceso de login:", error);
-      setErrorMessage("Error de conexión. Inténtalo de nuevo.");
+      alert("Error de conexión. Inténtalo de nuevo.");
     }
   };
 
@@ -65,7 +63,6 @@ const Login = () => {
           onChange={handleChange}
           value={formState.login}
         />
-        
         <label htmlFor="password">Contraseña</label>
         <input
           type="password"
@@ -76,7 +73,6 @@ const Login = () => {
           onChange={handleChange}
           value={formState.password}
         />
-        {errorMessage && (<span className="error-message">{errorMessage}</span>)}
         <button type="submit">Iniciar sesión</button>
         <Link to="/forgot-password">¿Olvidaste tu contraseña?</Link>
       </form>

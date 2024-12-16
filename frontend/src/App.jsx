@@ -7,12 +7,12 @@ import {
   LoginScreen,
   RegisterScreen,
   ForgotPasswordScreen,
-  RecoveryPasswordScreen,
+  RecoveryPasswordScreen
 } from "./Screens";
 
 import { NewChannel, Help, UserInfo } from "./Components";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import EditProfile from "./Components/Users/EditProfile/EditProfile";
+import EditProfile from "./Components/Users/EditProfile";
 
 
 

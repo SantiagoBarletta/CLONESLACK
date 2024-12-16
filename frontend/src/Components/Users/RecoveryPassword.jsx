@@ -56,8 +56,7 @@ const RecoveryPassword = () => {
 
   return (
     <div className="auth-screen-container">
-      <div className="recovery-header"><h1>Restablecer codasdasdasntraseña</h1></div>
-      
+      <h1>Restablecer contraseña</h1>
       {message && <div className="message">{message}</div>}
       <Form action={actionRecoveryPassword} form_fields={form_fields} inital_state_form={inital_state_form}>
         <button type="submit">Actualizar contraseña</button>

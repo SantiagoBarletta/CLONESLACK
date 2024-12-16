@@ -9,7 +9,7 @@ body {
   .auth-screen-container,
   .register-container,
   .login-container {
-    width: 400px;
+    max-width: 400px;
     margin: 50px auto;
     background-color: #ffffff;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -20,8 +20,7 @@ body {
   
   
   .auth-header,
-  .login-header,
-  .recovery-header {
+  .login-header {
     background-color: #4a154b; 
     color: white;
     padding: 20px;
@@ -38,15 +37,13 @@ body {
   /* formularios */
   .auth-form,
   .register-form,
-  .login-form,
-  .recovery_form {
+  .login-form {
     padding: 20px;
   }
   
   .auth-form label,
   .register-form label,
-  .login-form label,
-  .recovery_form label {
+  .login-form label {
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
@@ -55,8 +52,7 @@ body {
   
   .auth-form input,
   .register-form input,
-  .login-form input, 
-  .recovery_form input {
+  .login-form input {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -67,8 +63,7 @@ body {
   
   .auth-form input:focus,
   .register-form input:focus,
-  .login-form input:focus,
-  .recovery_form input:focus {
+  .login-form input:focus {
     outline: none;
     border-color: #4a154b;
     box-shadow: 0 0 4px rgba(74, 21, 75, 0.3);
@@ -77,8 +72,7 @@ body {
   /* botones */
   .auth-form button,
   .register-form button,
-  .login-form button,
-  .recovery_form button {
+  .login-form button {
     width: 100%;
     background-color: #4a154b;
     color: white;
@@ -92,16 +86,14 @@ body {
   
   .auth-form button:hover,
   .register-form button:hover,
-  .login-form button:hover,
-  .recovery_form button:hover {
+  .login-form button:hover {
     background-color: #7b1d7d;
   }
   
   
   .auth-form a,
   .register-link,
-  .login-form a,
-  .recovery_form a {
+  .login-form a {
     display: block;
     text-align: center;
     margin-top: 10px;
@@ -112,17 +104,16 @@ body {
   
   .auth-form a:hover,
   .register-link:hover,
-  .login-form a:hover,
-  .recovery_form a:hover {
+  .login-form a:hover {
     text-decoration: underline;
   }
   
   /* mensajes */
-  .login-form .error-message {
+  .error-message {
+    font-size: 14px;
     color: red;
-    font-size: 0.9rem;
-    margin: 5px;
-    
+    margin-bottom: 10px;
+    text-align: center;
   }
   
   .message {
