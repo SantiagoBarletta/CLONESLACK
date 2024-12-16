@@ -9,7 +9,10 @@ import privateMessagesRouter from "./routes/privateMessages.routes.js";
 
 const app = express();
 
+
 app.use(customCorsMiddleware);
+
+
 
 app.use(cors()); 
 
@@ -19,6 +22,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/workspaces", workspacesRouter);
 app.use("/api/users", usersRoutes);
 app.use("/api/private-messages", privateMessagesRouter);
+
+
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
