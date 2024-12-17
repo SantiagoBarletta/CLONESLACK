@@ -1,47 +1,64 @@
 .help {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    margin: 20px;
-    background-color: #f4f4f4;
+    margin: 0; /* Elimina márgenes */
+    padding: 0;
+    background-color: #7b1fa2; /* Fondo violeta */
     color: #333;
-}
-
-.help .close {
-    background: transparent;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-    text-align: end;
+    display: flex; /* Centra el contenido */
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Altura completa de la pantalla */
   }
   
-.help .close:hover {
-    color: #ff0000;
+  .help-container {
+    background-color: #fff; /* Fondo blanco */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 20px 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    width: 90%;
+    max-width: 600px; /* Ancho máximo */
+    position: relative; /* Posicionamiento relativo para la cruz */
+    box-sizing: border-box;
   }
-
-.help h1 h2 {
+  
+  .help .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
     color: #333;
-}
-.help ul {
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .help .close:hover {
+    color: #ff0000; /* Cambia a rojo al pasar el cursor */
+  }
+  
+  .help h2, .help h3 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .help ul {
     list-style-type: disc;
     margin-left: 20px;
-}
-.help pre {
-    background-color: #eee;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    overflow-x: auto;
-}
-.help code {
+  }
+  
+  .help a {
+    color: #7b1fa2; /* Violeta para los enlaces */
+    text-decoration: none;
+  }
+  
+  .help a:hover {
+    text-decoration: underline;
+  }
+  
+  .help code {
     background-color: #f4f4f4;
     padding: 2px 4px;
     border-radius: 4px;
     font-size: 90%;
-}
-.help a {
-    color: #007bff;
-    text-decoration: none;
-}
-.help a:hover {
-    text-decoration: underline;
-}
+  }
+  
