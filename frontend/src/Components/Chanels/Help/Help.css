@@ -20,6 +20,8 @@
     max-width: 600px; /* Ancho máximo */
     position: relative; /* Posicionamiento relativo para la cruz */
     box-sizing: border-box;
+    overflow-y: auto; /* Desplazamiento si el contenido es muy extenso */
+    max-height: 90vh; /* Evita que el contenedor ocupe más de la pantalla */
   }
   
   .help .close {
