@@ -1,47 +1,32 @@
-.help {
+body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    margin: 20px;
-    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0 20px;
+    background-color: #f9f9f9;
     color: #333;
 }
-
-.help .close {
-    background: transparent;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-    text-align: end;
-  }
-  
-.help .close:hover {
-    color: #ff0000;
-  }
-
-.help h1 h2 {
-    color: #333;
+h1, h2, h3 {
+    color: #444;
 }
-.help ul {
-    list-style-type: disc;
-    margin-left: 20px;
-}
-.help pre {
+pre {
     background-color: #eee;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 5px;
     overflow-x: auto;
 }
-.help code {
-    background-color: #f4f4f4;
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-size: 90%;
+code {
+    font-family: monospace;
+    color: #333;
 }
-.help a {
-    color: #007bff;
+ul {
+    margin: 0;
+    padding-left: 20px;
+}
+a {
+    color: #0066cc;
     text-decoration: none;
 }
-.help a:hover {
+a:hover {
     text-decoration: underline;
 }
