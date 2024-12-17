@@ -13,33 +13,49 @@ const Help = () => {
     <div className='help'>
       <p onClick={handleClose} className='close'>Cerrar</p>
       <title>Proyecto CLONESLACK</title>
-      <p>Este proyecto es una aplicación de mensajería similar a Slack, desarrollada con React. La aplicación permite a los usuarios crear diferentes espacios de trabajo (workspaces) y canales dentro de los mismos. Los usuarios pueden interactuar con los canales, enviar mensajes y ver la información de contacto de los participantes.</p>
+      <p>
+        Este proyecto es una aplicación de mensajería similar a Slack, desarrollada con 
+        <strong>React</strong> en el frontend y <strong>Node.js con Express</strong> en el backend. 
+        La aplicación permite a los usuarios crear espacios de trabajo (workspaces), canales y 
+        enviar mensajes en tiempo real.
+    </p>
 
-      <h2>Características</h2>
-      <ul>
-        <li><strong>Espacios de Trabajo (Workspaces)</strong>:     Listado de Espacios de trabajo, muestra la cantidad de usuarios y miniaturas de sus fotos de perfil.
-        Los usuarios pueden crear múltiples espacios de trabajo. Cada espacio de trabajo es un contenedor para los diferentes canales y mensajes.</li>
-        <li><strong>Canales</strong>:     Desde el header se puede navegar hacia atras y hacia adelante. Buscar y resaltar mensajes. Tambien desde ayuda (?) se puede acceder al contenido del archivo "Readme".
-        Dentro de cada espacio de trabajo, los usuarios pueden navegar por los distintos canales y crear canales nuevos. Los canales permiten el enevío de mensajes. </li>
-        <li><strong>Mensajes</strong>: Los usuarios pueden enviar mensajes en cada canal. Los mensajes se muestran en tiempo real y se pueden eliminar.</li>
-        <li><strong>Información de Contacto</strong>: Los usuarios pueden ver la información detallada de cada contacto dentro de un canal. Esto incluye detalles como el nombre, la foto de perfil y correo electrónico.</li>
-      </ul>
+    <h2>Características</h2>
 
-      <h2>Tecnologías Utilizadas</h2>
-      <ul>
-        <li><strong>React</strong></li>
-        <li><strong>React Router</strong></li>
-        <li><strong>React Icons</strong></li>
-        <li><strong>JavaScript</strong></li>
-        <li><strong>CSS</strong></li>
-      </ul>
+<h3>Frontend:</h3>
+<ul>
+    <li><strong>Espacios de Trabajo:</strong> Listado de workspaces con la cantidad de usuarios y la posibilidad de crear nuevos.</li>
+    <li><strong>Canales:</strong> Navegación entre canales, búsqueda de mensajes y creación de canales nuevos.</li>
+    <li><strong>Mensajes:</strong> Envío de mensajes en tiempo real y eliminación de mensajes existentes.</li>
+    <li><strong>Perfil del Usuario:</strong> Edición de perfil con validación de imágenes (máximo 1MB) y previsualización.</li>
+    <li><strong>Rutas protegidas:</strong> Navegación autenticada mediante <code>react-router-dom</code> y JWT.</li>
+</ul>
 
-      <h2>Instalación y Configuración</h2>
-      <p>Para instalar y ejecutar el proyecto localmente, sigue estos pasos:</p>
-      <ol>
-        <li><strong>Clona el Repositorio</strong></li>
-      </ol>
-      <pre><code>git clone https://github.com/SantiagoBarletta/proyectoSlasher</code></pre>
+<h3>Backend:</h3>
+<ul>
+    <li><strong>Autenticación segura:</strong> Login y registro de usuarios con JWT. Contraseñas cifradas con <code>bcrypt</code>.</li>
+    <li><strong>Protección de rutas:</strong> Acceso restringido mediante middleware JWT.</li>
+    <li><strong>Base de datos:</strong> Persistencia de datos con <strong>MySQL</strong>.</li>
+    <li><strong>API RESTful:</strong> Endpoints para manejar workspaces, canales, mensajes y actualización de perfil.</li>
+</ul>
+
+<h2>Tecnologías Utilizadas</h2>
+<h3>Frontend:</h3>
+<ul>
+    <li>React</li>
+    <li>React Router</li>
+    <li>JavaScript</li>
+    <li>CSS</li>
+</ul>
+
+<h3>Backend:</h3>
+<ul>
+    <li>Node.js</li>
+    <li>Express</li>
+    <li>MySQL</li>
+    <li>Bcrypt</li>
+    <li>JSON Web Tokens (JWT)</li>
+</ul>
 
       <h2>Contacto</h2>
       <ul>
