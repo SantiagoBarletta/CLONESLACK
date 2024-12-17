@@ -1,9 +1,9 @@
 .help {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    margin: 0; /* Elimina márgenes */
+    margin: 0; 
     padding: 0;
-    background-color: #7b1fa2; /* Fondo violeta */
+    background-color: #4a154b
     color: #333;
     display: flex; /* Centra el contenido */
     justify-content: center;
