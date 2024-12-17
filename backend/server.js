@@ -11,7 +11,7 @@ const app = express();
 
 app.use(customCorsMiddleware);
 
-app.use(cors()); 
+//app.use(cors()); 
 
 app.use(express.json());
 
