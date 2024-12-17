@@ -3,25 +3,25 @@
     line-height: 1.6;
     margin: 0; 
     padding: 0;
-    background-color: #4a154b
+    background-color: #4a154b;
     color: #333;
-    display: flex; /* Centra el contenido */
+    display: flex; 
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Altura completa de la pantalla */
+    height: 100vh; 
   }
   
   .help-container {
-    background-color: #fff; /* Fondo blanco */
-    border-radius: 12px; /* Bordes redondeados */
+    background-color: #fff; 
+    border-radius: 12px;
     padding: 20px 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra ligera */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     width: 90%;
-    max-width: 600px; /* Ancho máximo */
-    position: relative; /* Posicionamiento relativo para la cruz */
+    max-width: 600px;
+    position: relative;
     box-sizing: border-box;
-    overflow-y: auto; /* Desplazamiento si el contenido es muy extenso */
-    max-height: 90vh; /* Evita que el contenedor ocupe más de la pantalla */
+    overflow-y: auto; 
+    max-height: 90vh; 
   }
   
   .help .close {
@@ -35,7 +35,7 @@
   }
   
   .help .close:hover {
-    color: #ff0000; /* Cambia a rojo al pasar el cursor */
+    color: #ff0000; 
   }
   
   .help h2, .help h3 {
@@ -49,7 +49,7 @@
   }
   
   .help a {
-    color: #7b1fa2; /* Violeta para los enlaces */
+    color: #7b1fa2; 
     text-decoration: none;
   }
   
