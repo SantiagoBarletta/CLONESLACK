@@ -148,7 +148,7 @@ const Chanels = ({
         )}
         <div className="messages">
           {isLoading ? (
-            <p>Cargando...</p>
+            <p className="loading">Cargando...</p>
           ) : messages.length > 0 ? (
             messages.map((message) => (
               <div key={message.id} className="message">

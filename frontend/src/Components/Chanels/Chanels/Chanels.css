@@ -35,7 +35,9 @@
 .channel .container-none {
     display: none
 }
-
+.loading {
+    color: #ccc;
+}
 .channel .messages .message {
     color: #fff;
     font-size: 16px;
