@@ -19,11 +19,11 @@
   }
 
  
-  .workspace-list .title .workspace-list-header h4  {
+  .workspace-list h4  {
     font-size: 18px;
-    font-weight: 300;
-    color: aqua;
+    font-weight: initial;
     letter-spacing: var(--custom-font-tracking-body, inherit);
+    margin: 1.33em;
 }
 
   .workspace-list .workspace {
