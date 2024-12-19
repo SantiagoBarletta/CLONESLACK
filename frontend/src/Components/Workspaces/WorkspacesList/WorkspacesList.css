@@ -17,7 +17,7 @@
     padding: 0 24px;
     display: flex;
   }
-  .workspace-list-header{
+  .workspace-list-header h4{
     font-size: 15px;
     font-weight: initial;
     letter-spacing: var(--custom-font-tracking-body, inherit);
