@@ -47,7 +47,9 @@ const ChanelsAside = ({ onSelectUser, viewInfo, setViewInfo, onClose  }) => {
 return (
   <div className="chanels-aside">
       {isLoading ? (
-          <p>Cargando...</p>
+          <div className="loading-container">
+          <img src="/Imagenes/loading.gif" alt="Cargando..." className="loading-img" />
+          </div>
       ) : (<>
       <h2>{workspaceName} <IoIosArrowDown className='arrow'  /><button className="close-button" onClick={onClose}>
         <FaTimes />

@@ -14,21 +14,20 @@ const Chanels = ({
   viewInfo,
   setViewInfo,
   showPrivateMessages,
-  setShowPrivateMessages, 
+  setShowPrivateMessages,
 }) => {
   const { workspaceID, channelID } = useParams();
   const [messages, setMessages] = useState([]);
   const [channelName, setChannelName] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [showEditProfile, setShowEditProfile] = useState(false); 
+  const [showEditProfile, setShowEditProfile] = useState(false);
 
   useEffect(() => {
     const fetchChannelData = async () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `${
-            import.meta.env.VITE_URL_API
+          `${import.meta.env.VITE_URL_API
           }/api/workspaces/${workspaceID}/channels/${channelID}/messages`,
           {
             headers: {
@@ -100,7 +99,7 @@ const Chanels = ({
 
   const resaltarBusqueda = (message, busqueda) => {
     if (!busqueda) return message;
-  
+
     const letras = message.split(new RegExp(`(${busqueda})`, "gi"));
     return letras.map((letra, index) =>
       letra.toLowerCase() === busqueda.toLowerCase() ? (
@@ -133,7 +132,7 @@ const Chanels = ({
             viewInfo={viewInfo}
             setViewInfo={setViewInfo}
             onEditProfile={() => setShowEditProfile(true)}
-            onSendMessage={() => setShowPrivateMessages(true)} 
+            onSendMessage={() => setShowPrivateMessages(true)}
           />
         )}
         {selectedUser && showEditProfile && (
@@ -143,12 +142,14 @@ const Chanels = ({
           <PrivateMessages
             selectedUser={selectedUser}
             workspaceID={workspaceID}
-            onClose={() => setShowPrivateMessages(false)} 
+            onClose={() => setShowPrivateMessages(false)}
           />
         )}
         <div className="messages">
           {isLoading ? (
-            <img src="/Imagenes/loading.gif" alt="Cargando..."/>
+            <div className="loading-container">
+            <img src="/Imagenes/loading.gif" alt="Cargando..." className="loading-img" />
+            </div>
           ) : messages.length > 0 ? (
             messages.map((message) => (
               <div key={message.id} className="message">
@@ -165,8 +166,8 @@ const Chanels = ({
                     </span>
                   </p>
                   <p className="message-text">
-                  {resaltarBusqueda(message.text, search)}
-                </p>
+                    {resaltarBusqueda(message.text, search)}
+                  </p>
                 </div>
                 <button
                   className="delete-button"

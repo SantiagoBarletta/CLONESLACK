@@ -20,7 +20,9 @@
     cursor: pointer;
     color: #fff;
 }
-
+.loading{
+    color: #B687BD;
+}
 .infoContainer .bioInfo {
     display: flex;
     flex-direction: column;

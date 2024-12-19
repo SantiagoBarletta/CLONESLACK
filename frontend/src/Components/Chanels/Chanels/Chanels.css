@@ -35,8 +35,13 @@
 .channel .container-none {
     display: none
 }
-.loading {
-    color: #ccc;
+
+.loading-container{
+    display: flex;
+    justify-content: center;
+}
+.loading-img {
+    width: 50px;
 }
 .channel .messages .message {
     color: #fff;
