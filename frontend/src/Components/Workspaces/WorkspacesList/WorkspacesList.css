@@ -18,12 +18,11 @@
     display: flex;
   }
   .workspace-list-header{
-
     font-size: 15px;
     font-weight: initial;
     letter-spacing: var(--custom-font-tracking-body, inherit);
     margin: 1.33em;
-
+    border-bottom: 1px solid #e5ddd5;
   }
  
   .workspace-list .title h4  {
