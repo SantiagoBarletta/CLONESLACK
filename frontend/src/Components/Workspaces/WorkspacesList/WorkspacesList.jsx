@@ -55,7 +55,7 @@ function WorkspacesList() {
     <>
   <div className="workspace-list">
     <div className="workspace-list-header">
-      <h4>Espacios de trabajo para {data.data.name}</h4>
+      <h4>Espacios de trabajo para {data.name}</h4>
       
     </div>
     {isLoading ? (
