@@ -14,7 +14,7 @@ const NuevoMensajeForm = ({ onNewMessage }) => {
         const response = await fetch(
             `${import.meta.env.VITE_URL_API}/api/workspaces/${workspaceID}/channels/${channelID}/messages`,
             {
-                method: "POST",
+                method: "POST", 
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${sessionStorage.getItem("access-token")}`,
@@ -36,7 +36,12 @@ const NuevoMensajeForm = ({ onNewMessage }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className='new-message-form'>
+      <form 
+       onSubmit={(e) => {
+        e.preventDefault(); 
+        handleSubmit(e); 
+    }}
+      className='new-message-form'>
         <textarea 
           maxLength={250}
           className='input-new-message'
@@ -44,6 +49,12 @@ const NuevoMensajeForm = ({ onNewMessage }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Escribe tu mensaje..."
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) { 
+                e.preventDefault(); 
+                handleSubmit(e); 
+            }
+        }}
           required
         />
         <button type="submit" className='button-new-message'><IoMdSend/></button>
