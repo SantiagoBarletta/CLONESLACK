@@ -187,7 +187,8 @@ class WorkspacesRepository {
       FROM channels c
       LEFT JOIN channel_messages cm ON cm.channel_id = c.id AND cm.activo = 1
       LEFT JOIN users u ON cm.author_id = u.id
-      WHERE c.id = ? AND c.activo = 1;
+      WHERE c.id = ? AND c.activo = 1
+      ORDER BY cm.date ASC;
   `;
         try {
             const [messages] = await pool.query(query, [channelID]);
