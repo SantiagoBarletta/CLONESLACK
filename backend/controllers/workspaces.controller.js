@@ -107,43 +107,51 @@ export const createMessageController = async (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   try {
-      const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
-      const author_id = decodedToken.user_id;
+    const decodedToken = jwt.verify(token, ENVIROMENT.SECRET_KEY);
+    const author_id = decodedToken.user_id;
 
-      if (!author_id) {
-          return res.status(401).json({
-              ok: false,
-              message: "Usuario no autorizado",
-          });
-      }
-
-
-      if (!text || text.trim() === "") {
-          return res.status(400).json({
-              ok: false,
-              message: "El mensaje no puede estar vacío",
-          });
-      }
-
-      const newMessage = await WorkspacesRepository.createMessage({
-          author_id,
-          channel_id: channelID,
-          text,
+    if (!author_id) {
+      return res.status(401).json({
+        ok: false,
+        message: "Usuario no autorizado",
       });
+    }
 
-      res.status(201).json({
-          ok: true,
-          message: "Mensaje enviado con éxito",
-          data: newMessage,
+    if (!text || text.trim() === "") {
+      return res.status(400).json({
+        ok: false,
+        message: "El mensaje no puede estar vacío",
       });
+    }
+
+    // Crear el mensaje en la base de datos
+    const newMessage = await WorkspacesRepository.createMessage({
+      author_id,
+      channel_id: channelID,
+      text,
+    });
+
+    // Obtener los datos completos del mensaje recién creado
+    const fullMessage = await WorkspacesRepository.getMessageById(newMessage.id);
+
+    if (!fullMessage) {
+      throw new Error("Error al obtener los datos completos del mensaje");
+    }
+
+    res.status(201).json({
+      ok: true,
+      message: "Mensaje enviado con éxito",
+      data: fullMessage, // Responde con los datos enriquecidos
+    });
   } catch (error) {
-      console.error("Error al crear mensaje:", error);
-      res.status(500).json({
-          ok: false,
-          message: "Error interno del servidor",
-      });
+    console.error("Error al crear mensaje:", error);
+    res.status(500).json({
+      ok: false,
+      message: "Error interno del servidor",
+    });
   }
 };
+
 
 export const deleteMessageController = async (req, res) => {
   const { messageID } = req.params;

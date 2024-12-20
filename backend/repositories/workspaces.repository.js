@@ -230,19 +230,24 @@ class WorkspacesRepository {
 
     static async getMessageById(messageID) {
         const query = `
-      SELECT id, author_id 
-      FROM channel_messages 
-      WHERE id = ? AND activo = 1
-  `;
-
+          SELECT cm.id, cm.author_id, cm.channel_id, cm.text, cm.date,
+                 u.username AS author_name, u.foto_perfil AS author_image,
+                 c.name AS channel_name, CONCAT(u.firstname, ' ', u.lastname) AS author_fullname
+          FROM channel_messages cm
+          LEFT JOIN users u ON cm.author_id = u.id
+          LEFT JOIN channels c ON cm.channel_id = c.id
+          WHERE cm.id = ? AND cm.activo = 1
+        `;
+      
         try {
-            const [rows] = await pool.query(query, [messageID]);
-            return rows[0] || null;
+          const [rows] = await pool.query(query, [messageID]);
+          return rows[0] || null; // Retorna el primer resultado o null si no hay resultados
         } catch (error) {
-            console.error("Error en WorkspacesRepository.getMessageById:", error);
-            throw error;
+          console.error("Error en WorkspacesRepository.getMessageById:", error);
+          throw error;
         }
-    }
+      }
+      
 
     static async deleteMessage(messageID) {
         const query = `
