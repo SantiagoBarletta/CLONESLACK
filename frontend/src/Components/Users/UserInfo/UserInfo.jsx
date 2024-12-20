@@ -52,7 +52,9 @@ const UserInfo = ({ user, viewInfo, setViewInfo, onEditProfile, onSendMessage })
     }, [user]);
 
     if (isLoading) {
-        return <div className="loading">Cargando...</div>;
+        return  <div className="loading-container">
+        <img src="/Imagenes/loading.gif" alt="Cargando..." className="loading-img" />
+        </div>;
     }
 
     if (!userData) {
