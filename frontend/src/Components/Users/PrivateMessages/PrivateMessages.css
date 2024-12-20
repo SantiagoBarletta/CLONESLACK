@@ -8,6 +8,11 @@
   color: #fff;
 }
 
+.img-chat{
+  width: 100px;
+  border-radius: 8px;
+}
+
 .pm-header {
   display: flex;
   justify-content: space-between;

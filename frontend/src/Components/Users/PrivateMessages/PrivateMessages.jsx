@@ -80,7 +80,7 @@ const PrivateMessages = ({ selectedUser, workspaceID, onClose }) => {
   return (
     <div className="private-messages">
       <div className="pm-header">
-        <h2>Mensajes Privados con {selectedUser.username}</h2>
+        <h2><img src={selectedUser.foto_perfil} className="img-chat"/> {selectedUser.username}</h2>
         <button className="pm-close-button" onClick={onClose}>
           <MdClose />
         </button>
