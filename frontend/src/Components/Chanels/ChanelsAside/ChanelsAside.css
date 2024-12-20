@@ -97,11 +97,11 @@
     .chanels-aside .channels{
         padding: 5px;
 }
-
+/*  
     .chanels-aside .members{
-        display: none;
+      display: none;
     }
-
+*/
     .close-button {
         display: flex;
         background: transparent;
