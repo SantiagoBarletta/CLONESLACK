@@ -241,7 +241,7 @@ class WorkspacesRepository {
       
         try {
           const [rows] = await pool.query(query, [messageID]);
-          return rows[0] || null; // Retorna el primer resultado o null si no hay resultados
+          return rows[0] || null; 
         } catch (error) {
           console.error("Error en WorkspacesRepository.getMessageById:", error);
           throw error;

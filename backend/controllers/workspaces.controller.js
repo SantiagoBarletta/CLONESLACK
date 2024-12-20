@@ -124,14 +124,13 @@ export const createMessageController = async (req, res) => {
       });
     }
 
-    // Crear el mensaje en la base de datos
+    
     const newMessage = await WorkspacesRepository.createMessage({
       author_id,
       channel_id: channelID,
       text,
     });
 
-    // Obtener los datos completos del mensaje recién creado
     const fullMessage = await WorkspacesRepository.getMessageById(newMessage.id);
 
     if (!fullMessage) {
@@ -141,7 +140,7 @@ export const createMessageController = async (req, res) => {
     res.status(201).json({
       ok: true,
       message: "Mensaje enviado con éxito",
-      data: fullMessage, // Responde con los datos enriquecidos
+      data: fullMessage, 
     });
   } catch (error) {
     console.error("Error al crear mensaje:", error);
