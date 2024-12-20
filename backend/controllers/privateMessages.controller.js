@@ -50,17 +50,21 @@ export const sendPrivateMessage = async (req, res) => {
         const decoded = jwt.decode(token);
         const sender_id = decoded.user_id;
 
+        
         const [result] = await pool.query(
             `INSERT INTO private_messages (sender_id, receiver_id, text, date, activo)
              VALUES (?, ?, ?, NOW(), 1)`,
             [sender_id, receiver_id, text]
         );
 
+        
         const [newMessage] = await pool.query(
-            `SELECT id, sender_id, receiver_id, text, 
-                    DATE_FORMAT(date, '%Y-%m-%dT%H:%i:%sZ') AS date
-             FROM private_messages
-             WHERE id = ?`,
+            `SELECT pm.id, pm.sender_id, pm.receiver_id, pm.text, 
+                    DATE_FORMAT(pm.date, '%Y-%m-%dT%H:%i:%sZ') AS date,
+                    u.username AS sender_name, u.foto_perfil AS sender_image
+             FROM private_messages pm
+             JOIN users u ON pm.sender_id = u.id
+             WHERE pm.id = ?`,
             [result.insertId]
         );
 
@@ -70,3 +74,4 @@ export const sendPrivateMessage = async (req, res) => {
         res.status(500).json({ success: false, message: "Error interno del servidor" });
     }
 };
+
